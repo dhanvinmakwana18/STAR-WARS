@@ -1,14 +1,14 @@
-# 🚀 STAR WARS: The Architecture of Propulsion Intelligence
-## *A Comprehensive Engineering Documentary & Technical Whitepaper on NASA C-MAPSS Turbofan RUL Prediction & Autonomous Fleet Maintenance Optimization*
+# STAR WARS: Physics-Informed Federated Conformal Prognostics
+## *Engineering Documentation on NASA C-MAPSS (`FD001`–`FD004`) Turbofan RUL Prediction, Causal Curve-Fitting, Simulated FedAvg & Maintenance Simulation*
 
 ---
 
-> *"In commercial aviation, an unscheduled engine shutdown in flight is not a data science error—it is an existential operational event. Predicting the failure of a machine before it knows it is failing is the quintessential challenge of modern industrial intelligence."*
+> *Scope Note: Every capability documented below is evaluated strictly on NASA C-MAPSS (`FD001`–`FD004`). Multi-operator federated experiments represent a simulated partition of `FD002`/`FD004` rather than live cross-airline telemetry.*
 
 ---
 
 ```
-                       NASA C-MAPSS FLEET INTELLIGENCE PIPELINE
+                       NASA C-MAPSS FLEET PROGNOSTICS PIPELINE
                        
    [ 21 Raw Sensors ]                [ Flight Envelopes ]
    (Temperatures, Pressures, RPM)     (Altitude, Mach, TRA)
@@ -23,57 +23,55 @@
                                 ▼
                ┌─────────────────────────────────┐
                │  Regime-Standardized Telemetry  │
-               │   (Slopes, EWMA, Rolling Stats) │
+               │ • Rolling Windows / EWMA / Diff │
+               │ • Causal Saxena (a,b) Curve Fit │
                └────────────────┬────────────────┘
                                 │
-                                ▼
-         ┌──────────────────────────────────────────────┐
-         │        Multi-Model Benchmark Tournament      │
-         ├──────────────────────┬───────────────────────┤
-         │ Deep 1D-CNN Residual │ BiLSTM + Temporal Att │
-         ├──────────────────────┼───────────────────────┤
-         │ Multi-Scale Dilation │ Unified Cross-Domain  │
-         └──────────────────────┴───────────────┬───────┘
-                                                │
-                                                ▼
-         ┌──────────────────────────────────────────────┐
-         │     Uncertainty & Conformal Calibration      │
-         │  • Monte Carlo Dropout (Epistemic Variance)  │
-         │  • Split-Conformal 90% Prediction Intervals  │
-         │  • Saxena Asymmetric Cost Loss Optimization  │
-         └──────────────────────┬───────────────────────┘
-                                │
-                                ▼
-         ┌──────────────────────────────────────────────┐
-         │ Fleet Maintenance Cost & Dispatch Simulator  │
-         │  • 0 Unplanned Failures (vs. 6 Baseline)     │
-         │  • 4.2% Early Pull Rate (vs. 72.5% Fixed)    │
-         │  • $110.82M/yr Savings across 300 Engines    │
-         └──────────────────────┬───────────────────────┘
-                                │
-                                ▼
-         ┌──────────────────────────────────────────────┐
-         │  Interactive 4-Tab Streamlit Command Console │
-         │ Fleet Status • Engine Twin • Schedule • ROI  │
-         └──────────────────────────────────────────────┘
+         ┌──────────────────────┴──────────────────────┐
+         ▼                                             ▼
+┌──────────────────────────────┐        ┌──────────────────────────────┐
+│  Centralized Benchmark Suite │        │ Simulated 3-Client FedAvg    │
+│ • XGBoost / Random Forest    │        │ • Client A (High Alt/Mach)   │
+│ • Deep 1D-CNN / Att-BiLSTM   │        │ • Client B (Low Alt/Throttle)│
+│ • Unified BiLSTM (FD001-04)  │        │ • Client C (Mixed Regime)    │
+└──────────────┬───────────────┘        └──────────────┬───────────────┘
+               │                                       │
+               └───────────────────┬───────────────────┘
+                                   ▼
+               ┌───────────────────────────────────────┐
+               │     Uncertainty & Conformal Layer     │
+               │  • MC Dropout (Epistemic Variance)    │
+               │  • Split-Conformal 90% Intervals      │
+               │  • Saxena Asymmetric Safety Scoring   │
+               └───────────────────┬───────────────────┘
+                                   ▼
+               ┌───────────────────────────────────────┐
+               │ Fleet Maintenance Cost Simulator      │
+               │  • 0 Unplanned Failures (142 Val Eng) │
+               │  • 4.2% Early Pulls (vs. 72.5% Fixed) │
+               │  • Simulated 300-Engine Cost Model    │
+               └───────────────────┬───────────────────┘
+                                   ▼
+               ┌───────────────────────────────────────┐
+               │  Interactive 5-Tab Streamlit Console  │
+               │ Live • EDA • Ablations • ROI • FedAvg │
+               └───────────────────────────────────────┘
 ```
 
 ---
 
-## 🎬 Prologue: The Cost of Uncertainty in the Sky
+## 1. Operational Problem & Maintenance Trade-Off
 
-At 35,000 feet, a commercial high-bypass turbofan operates under conditions hostile to material physics. Air enters the titanium fan stage at sub-zero temperatures, compresses through low- and high-pressure compressor spools under multi-atmosphere pressure ratios, combusts with jet fuel at over 1,700°C, and expands across turbine blades spinning at tens of thousands of RPM.
+In aviation engine management, operators balance two costs when scheduling depot overhauls on run-to-failure wear trajectories:
 
-Across commercial aviation and defense fleets, maintenance accounts for over **40% of total lifecycle engine operational expenditure**. Historically, fleet operators have relied on two imperfect paradigms:
+1. **Run-to-Failure (Unplanned Removal):** Allowing an engine to fail in service triggers unplanned removal, repair, and aircraft-on-ground downtime (modeled here at **\$750,000 removal + \$300,000 2-day AOG penalty**).
+2. **Fixed-Interval Overhaul (Preventative Replacement):** Replacing hot-section hardware every $N$ flight cycles (e.g., 150 cycles) reduces unplanned failures only by retiring healthy engines early, wasting remaining safe service life (modeled here at **\$120,000 scheduled overhaul + \$1,200/cycle residual waste** beyond a 10-cycle grace window).
 
-1. **Run-to-Failure (Reactive Maintenance):** Catastrophic in aerospace. An in-flight shutdown (IFSD) or uncontained failure costs in excess of \$500,000 in immediate repairs, secondary hardware destruction, emergency diversions, and regulatory grounding penalties.
-2. **Fixed-Interval Overhaul (Preventative Maintenance):** Standard airline doctrine replaces or overhauls hot-section components every $N$ flight cycles (e.g., 150 cycles). However, component wear follows a stochastic Weibull distribution governed by ambient operating severity, thermal cycles, and manufacturing tolerances. Replacing an engine at 150 cycles when its true Remaining Useful Life (RUL) was 220 cycles discards up to **\$50,000 to \$80,000 of pristine residual blade life per overhaul**. Conversely, if an outlier engine suffers rapid blade-rub degradation at cycle 138, a 150-cycle fixed schedule guarantees an unscheduled failure.
-
-**STAR WARS** was engineered to eliminate this trade-off. By treating degradation as a continuous stochastic trajectory and combining regime-conditioned signal processing, deep sequence representations, conformal uncertainty bounds, and fleet economic optimization, the platform transforms raw telemetry into automated, zero-failure maintenance intelligence.
+**STAR WARS** formulates turbofan maintenance scheduling around causal RUL estimation, empirical physics parameterization directly from Saxena et al. (2008), distribution-free conformal bounds, and discrete-event policy simulation.
 
 ---
 
-## 🔬 Act I: The Dataset & The Hidden Regime Trap
+## 2. Dataset & Variance Profiling (`FD001`–`FD004`)
 
 The platform benchmarks across the complete **NASA C-MAPSS (Commercial Modular Aero-Propulsion System Simulation)** turbofan degradation dataset:
 
@@ -95,7 +93,7 @@ STAR WARS prunes these 7 uninformative channels, isolating the **14 true thermod
 
 ---
 
-## ⚡ Act II: The Mathematical Breakthrough — Operating-Regime Normalization
+## 3. Operating-Regime Normalization (`KMeans k=6`)
 
 In `FD002` and `FD004`, engines transition continuously between 6 distinct flight operating regimes (spanning sea level climb to 40,000 ft cruise at Mach 0.84 with throttle angles from 20° to 100°).
 
@@ -125,8 +123,8 @@ For every engine time step $t$, sensor readings $\mathbf{s}_t$ are normalized ex
 
 $$\hat{s}_{i, t} = \frac{s_{i, t} - \mu_{i, \text{Regime}_t}}{\sigma_{i, \text{Regime}_t} + \epsilon}$$
 
-### Empirical Proof of Superiority
-The ablation study confirmed that regime-conditioned normalization is the single highest-leverage mathematical intervention in the entire pipeline:
+### Observed Ablation Effect
+Regime-conditioned normalization is the highest-impact preprocessing transformation across multi-regime subsets:
 - **`FD002` XGBoost NASA Score:** Plummeted by **`46.2%`** (from `2,198.5` down to **`1,182.1`**).
 - **`FD002` XGBoost RMSE:** Reduced from `17.08` to **`15.10`** cycles.
 - **`FD004` Deep 1D-CNN NASA Score:** Reduced by **`28.9%`** (from `4,244.3` down to **`3,017.2`**).
@@ -134,7 +132,7 @@ The ablation study confirmed that regime-conditioned normalization is the single
 
 ---
 
-## 🧠 Act III: The Architectural Tournament
+## 3. Model Benchmarking (`FD001`–`FD004`)
 
 To identify the optimal trade-off between latency, tabular explainability, and temporal representation capacity, STAR WARS engineered and benchmarked five model families:
 
@@ -185,16 +183,47 @@ All models were evaluated under standard piecewise-linear RUL clipping ($RUL_{\m
 | **Attention BiLSTM** | 14.73 / 389.5 | **14.06 / 792.4** | 14.51 / 452.1 | **15.22 / 1,241.6** |
 | **Unified BiLSTM (All-in-One)** | **13.90 / 415.5** | **14.37 / 772.5** | **13.44 / 953.1** | **14.69 / 1,007.8** |
 
-> **Key Finding:** The Unified BiLSTM shattered published baselines on complex multi-regime multi-fault datasets, outperforming **Li et al. (2018) by 35.7% to 37.0% in RMSE** and reducing the exponential NASA penalty score by **91.9% to 92.6% on FD002 and FD004**.
+> **Key Finding:** The Unified BiLSTM outperformed Zheng et al. (2017) across all four subsets and outperformed Li et al. (2018) on `FD002` and `FD004` by **35.7% to 37.0% in RMSE** and **91.9% to 92.6% in exponential NASA penalty score**.
 
 ---
 
-## 🛡️ Act IV: The Reliability & Uncertainty Frontier
+## 3A. Causal Physics Curve-Fitting (`Saxena et al., 2008` Eq. 4/5)
 
-In mission-critical aerospace prognostics, a point prediction is incomplete. An operator needs to know: *What is the probability that this engine has fewer than 10 cycles remaining before catastrophic failure?*
+Rather than treating C-MAPSS purely as an arbitrary multivariate time series, STAR WARS incorporates the underlying simulator's exponential health-index law (`Saxena et al., 2008`):
+
+$$h(t) = 1 - \exp(-a \cdot t^b)$$
+
+At each cycle $t$, `SaxenaPhysicsExtractor` fits `(log10_a, b)` via analytical-Jacobian damped nonlinear least squares over **only causal prefix cycles $1 \dots t$** against a smoothed composite HPC/EGT signal calibrated strictly on training engines (`median R^2 = 0.958–0.972` across `FD001`–`FD004`). Early cycles (`t < 35`) shrink toward the training-set prior because curvature cannot be identified before degradation onset.
+
+**Controlled Ablation (`XGBoost`, Official Test Sets):**
+- **`FD001` (100 units):** Test RMSE `18.07 → 14.10` (`-22.0%`), NASA Score `1,067.7 → 270.3` (`-74.7%`).
+- **`FD002` (259 units):** Test RMSE `15.10 → 12.63` (`-16.4%`), NASA Score `1,182.1 → 761.5` (`-35.6%`).
+- **`FD003` (100 units):** Test RMSE `17.56 → 14.28` (`-18.6%`), NASA Score `993.6 → 421.6` (`-57.6%`).
+- **`FD004` (248 units):** Test RMSE `17.44 → 14.38` (`-17.5%`), NASA Score `2,496.8 → 1,079.7` (`-56.8%`).
+
+Across held-out validation trajectories segmented by engine life stage, `(a, b)` physics features reduce Late-Life (`RUL < 45`) RMSE from `13.08 → 6.65` (`FD001`), `14.75 → 7.08` (`FD002`), `12.24 → 7.22` (`FD003`), and `13.84 → 10.88` (`FD004`). Early-life (`cycle < 35`) improvements (`e.g., 10.26 → 2.97` on `FD001`) primarily reflect prior shrinkage and noise smoothing rather than identifiable exponential curvature.
+
+---
+
+## 3B. Simulated 3-Client Federated Learning (`FedAvg`) on `FD002` & `FD004`
+
+> **Explicit Scope Note:** The three operator silos (`Client A`: high-altitude/high-Mach, `Client B`: low-altitude/low-throttle, `Client C`: mixed) are created by disjointly partitioning NASA C-MAPSS `FD002` and `FD004` engines — this is a **simulated split of a single public dataset**, not real cross-airline proprietary telemetry.
+
+Using 28 sequence channels (14 regime-normalized sensors, 3 operating settings, 6 regime indicators, and 5 causal Saxena `(a, b)` channels) over 12 `FedAvg` communication rounds:
+
+- **Isolated Clients Under Non-IID Skew Fail:** `Client A` alone reaches `36.52` Pooled Test RMSE on `FD002` (`48.79` on `FD004`); `Client B` reaches `33.63` (`FD002`) and `28.37` (`FD004`).
+- **Federated Aggregation (`FedAvg`) Recovers Global Generalization:** At `E = 2` local epochs/round, pooled RMSE drops to **`13.71`** (`FD002`) and **`14.24`** (`FD004`); at `E = 4`, **`13.15`** (`FD002`, vs `11.97` centralized reference ceiling) and **`13.14`** (`FD004`, matching the `13.57` centralized run).
+
+> **Failure Mode Note:** Point RUL estimates remain insufficient in safety-critical aviation; the next section covers epistemic uncertainty and split-conformal intervals to guard against dangerous late predictions.
+
+---
+
+## 4. Asymmetric Scoring & Uncertainty Calibration
+
+In safety-critical aerospace prognostics, a point prediction is incomplete. An operator needs calibrated uncertainty bounds: *Given past operating cycles, within what range is true RUL expected to fall with 90% confidence?*
 
 ### 1. Asymmetric NASA Cost Function
-Symmetric metrics like MSE or RMSE treat early predictions (predicting 20 cycles when true RUL is 30) identically to late predictions (predicting 40 cycles when true RUL is 30). In aviation, late predictions cause fatal crashes, whereas early predictions merely cause scheduled maintenance.
+Symmetric metrics like MSE or RMSE treat early predictions (predicting 20 cycles when true RUL is 30) identically to late predictions (predicting 40 cycles when true RUL is 30). In aviation maintenance, late predictions risk unscheduled in-service failure, whereas early predictions incur scheduled depot cost.
 
 STAR WARS optimizes against the canonical **Saxena et al. (2008) Eq. 11 Asymmetric Penalty**:
 
@@ -214,28 +243,30 @@ To provide formal statistical coverage without assuming Gaussian error distribut
 
 $$C(X_{n+1}) = \left[ \hat{y}(X_{n+1}) - \hat{q}_{1-\alpha}, \; \hat{y}(X_{n+1}) + \hat{q}_{1-\alpha} \right]$$
 
-Where $\hat{q}_{1-\alpha}$ is the empirical $(1-\alpha)(1 + 1/n)$-th quantile of absolute conformity scores on holdout engines. This guarantees **$\ge 90\%$ marginal coverage** in production.
+Where $\hat{q}_{1-\alpha}$ is the empirical $(1-\alpha)(1 + 1/n)$-th quantile of absolute conformity scores calibrated across full validation trajectories (`RUL in [0, 125]`). On unseen official test sets for the global `FedAvg (E=2)` model:
+- **`FD002` Pooled Fleet (`n=259`):** $\hat{q}_{0.90} = 23.66$ cycles, empirical test coverage **`90.3%`** (`mean width = 44.61` cycles).
+- **`FD004` Pooled Fleet (`n=248`):** $\hat{q}_{0.90} = 22.67$ cycles, empirical test coverage **`87.9%`** (`mean width = 43.59` cycles).
+- *Calibration Set Sensitivity:* Calibrating only on `RUL = 0` terminal rows or tiny per-client subsets (e.g., `Client C` at `79.3%`) under-covers censored test engines due to finite-sample variance and target-stage shift.
 
 ---
 
-## 💰 Act V: The Business Reality — Fleet Maintenance Simulation
+## 5. Fleet Maintenance Policy Simulation (`Phase 6`)
 
-To translate mathematical accuracy into boardroom ROI, STAR WARS executed an empirical discrete-event simulation across a **300-engine commercial aircraft fleet** over a 5-year operating window (scaled from 142 holdout validation engines):
+Using cycle-by-cycle validation trajectories across 142 holdout engines scaled to a simulated **300-engine fleet** over an 800-cycle/year operating window:
 
-- **Cost Parameters (Industry Standard):**
-  - Planned scheduled depot overhaul: **\$150,000**
-  - Unscheduled catastrophic engine replacement: **\$500,000**
-  - Early-pull residual life waste penalty: **\$500 per unused cycle**
-  - Late-run risk premium: **\$1,000 per overdue cycle**
+- **Cost Parameters (Assumed Aviation MRO Benchmark):**
+  - Planned scheduled depot overhaul: **\$150,000** (note: `README.md` and the default interactive simulator use **\$120,000** overhaul + **\$750,000** unscheduled removal + **\$300,000** AOG penalty + **\$1,200/cyc** waste; metrics below reflect `reports/results/maintenance_simulation_summary.csv`)
+  - Unplanned engine replacement (removal + AOG): **\$1,050,000** total incident cost in default config / **\$500,000** base removal benchmark
+  - Early-pull residual life waste penalty: **\$1,200 per unused cycle** beyond 10-cycle grace window
 
 ### Comparative Fleet Results
 
-| Maintenance Strategy | Unplanned Failures (5 Yr) | Early Pull Rate | Residual Cycles Wasted | Total Annual Fleet Cost | Cost Reduction vs. Fixed-150 |
+| Maintenance Strategy | Unplanned Failures (142 Val Engines, Scaled to 300) | Early Pull Rate | Residual Cycles Wasted (per Engine) | Total Annual Fleet Cost | Cost Reduction vs. Fixed-150 |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Run-to-Failure (Reactive)** | 300 / 300 (100%) | 0.0% | 0 cycles | \$482.10M / yr | +97.9% (Catastrophic) |
-| **Fixed Overhaul (150 Cycles)** | 13 / 300 (4.2%) | 72.5% (218 eng) | 12,410 cycles | \$243.60M / yr | Baseline |
-| **Fixed Overhaul (140 Cycles)** | 0 / 300 (0.0%) | 86.6% (260 eng) | 18,920 cycles | \$219.14M / yr | -\$24.46M / yr (-10.0%) |
-| **STAR WARS Uncertainty-Aware** | **0 / 300 (0.0%)** | **4.2% (13 eng)** | **1,140 cycles** | **\$132.78M / yr** | **-\$110.82M / yr (-45.5%)** |
+| **Run-to-Failure (Reactive)** | 100% | 0.0% | 0 cycles | \$482.10M / yr | +97.9% |
+| **Fixed Overhaul (150 Cycles)** | 6 / 142 (4.2%) | 72.5% | 56.03 cycles | \$243.60M / yr | Baseline |
+| **Fixed Overhaul (140 Cycles)** | 1 / 142 (0.7%) | 76.8% | 64.36 cycles | \$219.14M / yr | -\$24.46M / yr (-10.0%) |
+| **STAR WARS Predictive (`thresh = 20`)** | **0 / 142 (0.0%)** | **4.2%** | **2.89 cycles** | **\$132.78M / yr** | **-\$110.82M / yr (-45.5%)** |
 
 ```
 ANNUAL FLEET OPERATING COST COMPARISON (300 ENGINES)
@@ -254,26 +285,33 @@ STAR WARS Predictive AI     │███████████ $132.8M/yr  [-4
 
 ---
 
-## 🎛️ Act VI: The Cockpit — Streamlit Command Console
+## 6. Interactive 5-Tab Streamlit Console (`app/streamlit_app.py`)
 
-The platform exposes an interactive, production-grade 4-tab Streamlit dashboard (`app/streamlit_app.py`):
+The platform exposes an interactive 5-tab Streamlit application (`app/streamlit_app.py`):
 
-1. **Tab 1: Fleet Command Center:** Real-time risk distribution across all active engines in the fleet, categorizing engines into Normal, Watchlist, Inspection Due, and Critical Grounding tiers.
-2. **Tab 2: Engine Digital Twin:** Interactive telemetry stream inspection for individual engines. Operators can toggle sensor channels, view historical degradation slopes, and inspect moving-window statistics.
-3. **Tab 3: Real-Time Prognostics & Uncertainty:** Live inference displaying point RUL predictions, Monte Carlo epistemic confidence curves, 90% conformal bands, and SHAP feature importance attributions explaining why the model predicted a degradation acceleration.
-4. **Tab 4: Maintenance Dispatcher & Fleet ROI:** Interactive dispatch planner allowing fleet directors to simulate maintenance thresholds, adjust fuel/overhaul unit costs, and quantify ROI curves in real time.
-
----
-
-## 🧪 Epilogue: Verification & Engineering Rigor
-
-A mission-critical AI platform requires airtight software engineering standards. The codebase adheres strictly to production clean-architecture principles:
-
-- **100% Deterministic Test Coverage:** 26 automated unit and integration tests (`pytest tests/`) validating data ingestion, zero-variance sensor pruning, K-Means regime normalization mathematical stability, asymmetric scoring boundaries, and multi-model sequence inference.
-- **Strict Separation of Concerns:** Modular package architecture cleanly decoupling data loaders (`src/data`), feature engineering (`src/features`), model architectures (`src/models`), metric/economic evaluators (`src/evaluation`), and dashboard visualizations (`src/utils`).
-- **Reproducible Pipeline:** Deterministic seed management, pinned dependencies (`pyproject.toml`, `requirements.txt`), and automated experiment orchestration scripts.
+1. **Tab 1 — Live Engine Diagnostics & RUL Inference:** Cycle-by-cycle replay on real `FD001`–`FD004` test engines and synthetic slider simulation across Per-Dataset, Unified, and Federated `FedAvg` models.
+2. **Tab 2 — Dataset & EDA Insights:** Sensor variance profiling across global vs within-regime views and 6-regime envelope projections.
+3. **Tab 3 — Engineering Ablations & Literature Benchmarks:** Regime normalization, fault clustering, unified vs per-dataset comparisons, and clipped/unclipped benchmarks.
+4. **Tab 4 — 300-Engine Fleet Maintenance Simulator:** Interactive dispatch threshold and cost sensitivity modeling.
+5. **Tab 5 — Physics `(a, b)` & Federated Conformal:** Causal Saxena `(a, b)` life-stage ablation, simulated 3-client `FedAvg` comparisons (`FD002`/`FD004`), and 90% split-conformal coverage audits.
 
 ---
 
-### 🏆 Executive Summary
-STAR WARS proves that deep learning in aerospace is not about complex black-box curve fitting—it is about **respecting physical flight envelopes, isolating pure thermodynamic signal from ambient noise, and calibrating uncertainty to the asymmetric economic realities of aviation safety**.
+## 7. Modeling Assumptions & Limitations (Internal Defensibility Audit)
+
+- **Simulated 3-Client Operator Split:** The 3-client partition on `FD002`/`FD004` is a simulated proxy created by partitioning a single public dataset by dominant flight regime (`Client A`, `Client B`, `Client C`). It demonstrates `FedAvg` weight aggregation under non-IID regime skew, not real cross-airline telemetry at production scale.
+- **Exponential Functional Form (`h(t) = 1 - exp(-a · t^b)`):** Fitting `(a, b)` assumes the single-exponential wear curve from Saxena et al. (2008) holds without maintenance washes, step faults, or component replacements, and parameters are underdetermined early in life (`cycle < 35`).
+- **Aggregate Sensors & Hand-Specified Clusters:** C-MAPSS supplies 21 aggregate engine-level channels per cycle rather than per-blade or per-component telemetry; KMeans regime (`k=6`) and fault-mode (`k=2`) groupings are design choices rather than learned causal component graphs.
+- **Conformal Finite-Sample Calibration & Cost Assumptions:** Coverage guarantees scale with held-out calibration engine counts (20% of training engines per subset), and the fleet cost simulation reflects modeled MRO unit costs rather than field airline accounting.
+
+---
+
+## 8. Software Verification Summary
+
+- **Automated Test Suite (`tests/`):** 31 test cases defined across data ingestion, zero-variance sensor pruning, K-Means regime normalization, strict prefix causality for rolling and Saxena `(a, b)` extractors, `FedAvg` weighted averaging invariance, asymmetric scoring boundaries, and Streamlit app smoke checks.
+- **Modular Package Structure:** Decoupled modules across `src/data`, `src/features`, `src/models`, `src/evaluation`, and `src/utils`, paired with reproducible experiment scripts (`run_eda.py`, `run_experiments.py`, `run_aerofed_experiments.py`, `run_maintenance_sim.py`).
+
+---
+
+### Summary
+STAR WARS demonstrates an explicitly scoped, verifiable pipeline on NASA C-MAPSS (`FD001`–`FD004`) built around operating-regime conditioning, causal `Saxena et al. (2008)` curve-fitting, simulated `FedAvg` multi-operator training, split-conformal intervals, and maintenance threshold simulation.

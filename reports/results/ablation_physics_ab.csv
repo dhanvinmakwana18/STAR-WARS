@@ -1,0 +1,17 @@
+dataset_id,split_segment,rmse_without_ab,rmse_with_ab,rmse_delta,nasa_without_ab,nasa_with_ab,nasa_delta,n_samples
+FD001,Official Test Set (All Units),18.072,14.103,-3.969,1067.7,270.3,-797.4,100
+FD001,"Early Life (cycle < 35, underdetermined fit)",10.256,2.971,-7.284,775.0,122.4,-652.6,680
+FD001,Mid Life (cycle >= 35 & 45 <= RUL <= 110),23.186,16.389,-6.797,27775.4,6737.5,-21037.9,1312
+FD001,"Late Life / Near-Failure (RUL < 45, converged fit)",13.084,6.652,-6.432,5455.2,731.6,-4723.6,900
+FD002,Official Test Set (All Units),15.1,12.627,-2.473,1182.1,761.5,-420.5,259
+FD002,"Early Life (cycle < 35, underdetermined fit)",9.372,1.873,-7.499,1712.3,170.0,-1542.4,1768
+FD002,Mid Life (cycle >= 35 & 45 <= RUL <= 110),23.439,18.607,-4.832,62418.7,25747.6,-36671.0,3429
+FD002,"Late Life / Near-Failure (RUL < 45, converged fit)",14.747,7.076,-7.67,20383.8,2191.8,-18192.1,2340
+FD003,Official Test Set (All Units),17.555,14.284,-3.271,993.6,421.6,-572.0,100
+FD003,"Early Life (cycle < 35, underdetermined fit)",5.368,1.006,-4.361,277.0,32.0,-245.0,680
+FD003,Mid Life (cycle >= 35 & 45 <= RUL <= 110),21.503,15.475,-6.029,24330.1,6049.1,-18281.0,1320
+FD003,"Late Life / Near-Failure (RUL < 45, converged fit)",12.238,7.221,-5.017,6225.9,884.4,-5341.5,900
+FD004,Official Test Set (All Units),17.442,14.384,-3.058,2496.8,1079.7,-1417.0,248
+FD004,"Early Life (cycle < 35, underdetermined fit)",7.587,1.512,-6.075,1122.4,110.9,-1011.5,1700
+FD004,Mid Life (cycle >= 35 & 45 <= RUL <= 110),22.874,17.895,-4.979,54178.0,35843.9,-18334.1,3300
+FD004,"Late Life / Near-Failure (RUL < 45, converged fit)",13.844,10.883,-2.961,23494.9,11418.5,-12076.4,2250

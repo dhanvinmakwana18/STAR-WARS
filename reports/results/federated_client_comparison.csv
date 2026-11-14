@@ -1,0 +1,57 @@
+dataset_id,strategy,local_epochs,eval_scope,rmse,mae,nasa_score,n_test_units
+FD002,Local-Only (client_a_high_alt_mach),12,All Test Engines (Pooled Fleet),36.518,29.726,7615.0,259
+FD002,Local-Only (client_a_high_alt_mach),12,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),36.027,28.933,2496.1,86
+FD002,Local-Only (client_a_high_alt_mach),12,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),40.063,33.891,3060.6,86
+FD002,Local-Only (client_a_high_alt_mach),12,client_c_mixed (Client C (Mixed Regime)),33.172,26.394,2058.3,87
+FD002,Local-Only (client_b_low_alt_throttle),12,All Test Engines (Pooled Fleet),33.632,27.799,5542.7,259
+FD002,Local-Only (client_b_low_alt_throttle),12,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),32.935,27.057,1773.9,86
+FD002,Local-Only (client_b_low_alt_throttle),12,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),36.75,31.451,2157.6,86
+FD002,Local-Only (client_b_low_alt_throttle),12,client_c_mixed (Client C (Mixed Regime)),30.985,24.923,1611.2,87
+FD002,Local-Only (client_c_mixed),12,All Test Engines (Pooled Fleet),14.601,10.161,1351.4,259
+FD002,Local-Only (client_c_mixed),12,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),12.496,8.608,250.0,86
+FD002,Local-Only (client_c_mixed),12,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),16.012,11.306,663.0,86
+FD002,Local-Only (client_c_mixed),12,client_c_mixed (Client C (Mixed Regime)),15.061,10.562,438.4,87
+FD002,"Global Federated (FedAvg, E=1)",1,All Test Engines (Pooled Fleet),14.743,10.596,1211.7,259
+FD002,"Global Federated (FedAvg, E=1)",1,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),12.795,9.181,237.1,86
+FD002,"Global Federated (FedAvg, E=1)",1,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),16.238,11.737,614.0,86
+FD002,"Global Federated (FedAvg, E=1)",1,client_c_mixed (Client C (Mixed Regime)),14.986,10.866,360.6,87
+FD002,"Global Federated (FedAvg, E=2)",2,All Test Engines (Pooled Fleet),13.713,9.16,1183.8,259
+FD002,"Global Federated (FedAvg, E=2)",2,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),11.767,8.132,212.0,86
+FD002,"Global Federated (FedAvg, E=2)",2,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),14.556,9.726,580.6,86
+FD002,"Global Federated (FedAvg, E=2)",2,client_c_mixed (Client C (Mixed Regime)),14.611,9.615,391.3,87
+FD002,"Global Federated (FedAvg, E=4)",4,All Test Engines (Pooled Fleet),13.146,8.617,1157.8,259
+FD002,"Global Federated (FedAvg, E=4)",4,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),11.885,8.153,233.5,86
+FD002,"Global Federated (FedAvg, E=4)",4,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),14.403,9.407,573.5,86
+FD002,"Global Federated (FedAvg, E=4)",4,client_c_mixed (Client C (Mixed Regime)),13.032,8.295,350.9,87
+FD002,Centralized Pooled (Upper-Bound Ceiling),14,All Test Engines (Pooled Fleet),11.97,8.139,800.9,259
+FD002,Centralized Pooled (Upper-Bound Ceiling),14,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),10.145,6.889,168.9,86
+FD002,Centralized Pooled (Upper-Bound Ceiling),14,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),12.895,8.823,365.7,86
+FD002,Centralized Pooled (Upper-Bound Ceiling),14,client_c_mixed (Client C (Mixed Regime)),12.667,8.698,266.3,87
+FD004,Local-Only (client_a_high_alt_mach),12,All Test Engines (Pooled Fleet),48.786,43.436,22336.0,248
+FD004,Local-Only (client_a_high_alt_mach),12,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),51.673,46.255,8796.5,82
+FD004,Local-Only (client_a_high_alt_mach),12,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),47.078,41.974,6644.9,82
+FD004,Local-Only (client_a_high_alt_mach),12,client_c_mixed (Client C (Mixed Regime)),47.507,42.11,6894.6,84
+FD004,Local-Only (client_b_low_alt_throttle),12,All Test Engines (Pooled Fleet),28.367,24.091,5851.2,248
+FD004,Local-Only (client_b_low_alt_throttle),12,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),29.029,25.367,1471.6,82
+FD004,Local-Only (client_b_low_alt_throttle),12,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),26.499,21.784,2242.5,82
+FD004,Local-Only (client_b_low_alt_throttle),12,client_c_mixed (Client C (Mixed Regime)),29.455,25.098,2137.1,84
+FD004,Local-Only (client_c_mixed),12,All Test Engines (Pooled Fleet),17.256,12.409,1585.1,248
+FD004,Local-Only (client_c_mixed),12,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),17.843,13.115,469.2,82
+FD004,Local-Only (client_c_mixed),12,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),14.396,10.258,365.8,82
+FD004,Local-Only (client_c_mixed),12,client_c_mixed (Client C (Mixed Regime)),19.133,13.819,750.2,84
+FD004,"Global Federated (FedAvg, E=1)",1,All Test Engines (Pooled Fleet),16.949,11.718,1767.1,248
+FD004,"Global Federated (FedAvg, E=1)",1,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),17.138,11.973,512.3,82
+FD004,"Global Federated (FedAvg, E=1)",1,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),14.423,9.966,367.6,82
+FD004,"Global Federated (FedAvg, E=1)",1,client_c_mixed (Client C (Mixed Regime)),18.93,13.179,887.2,84
+FD004,"Global Federated (FedAvg, E=2)",2,All Test Engines (Pooled Fleet),14.235,9.391,1246.5,248
+FD004,"Global Federated (FedAvg, E=2)",2,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),13.962,8.929,359.3,82
+FD004,"Global Federated (FedAvg, E=2)",2,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),13.592,9.222,340.5,82
+FD004,"Global Federated (FedAvg, E=2)",2,client_c_mixed (Client C (Mixed Regime)),15.088,10.007,546.7,84
+FD004,"Global Federated (FedAvg, E=4)",4,All Test Engines (Pooled Fleet),13.138,8.608,985.8,248
+FD004,"Global Federated (FedAvg, E=4)",4,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),12.468,7.978,261.4,82
+FD004,"Global Federated (FedAvg, E=4)",4,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),13.23,9.14,304.9,82
+FD004,"Global Federated (FedAvg, E=4)",4,client_c_mixed (Client C (Mixed Regime)),13.676,8.703,419.5,84
+FD004,Centralized Pooled (Upper-Bound Ceiling),14,All Test Engines (Pooled Fleet),13.574,9.146,1119.6,248
+FD004,Centralized Pooled (Upper-Bound Ceiling),14,client_a_high_alt_mach (Client A (High-Alt / High-Mach)),12.29,8.15,231.5,82
+FD004,Centralized Pooled (Upper-Bound Ceiling),14,client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle)),13.316,9.268,299.5,82
+FD004,Centralized Pooled (Upper-Bound Ceiling),14,client_c_mixed (Client C (Mixed Regime)),14.948,9.998,588.6,84

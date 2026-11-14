@@ -90,6 +90,7 @@ SENSOR_DESCRIPTIONS: dict[str, str] = {
 
 MODEL_TRACK_OPTIONS: dict[str, tuple[str, str]] = {
     "Best Per-Dataset Sequence (Auto)": ("per_dataset", "best_sequence.pt"),
+    "Federated FedAvg BiLSTM (3-Client Simulated)": ("per_dataset", "federated_bilstm.pt"),
     "Per-Dataset BiLSTM": ("per_dataset", "sequence_bilstm.pt"),
     "Per-Dataset Deep1DCNN": ("per_dataset", "sequence_1dcnn.pt"),
     "Per-Dataset XGBoost": ("per_dataset", "tabular_xgb.joblib"),
@@ -167,12 +168,16 @@ def load_inference_artifacts(dataset_id: str) -> dict[str, Any]:
         if fault_path.exists():
             bundle["fault_clusterer"] = joblib.load(fault_path)
 
+        sax_path = ds_dir / "saxena_extractor.joblib"
+        if sax_path.exists():
+            bundle["saxena_extractor"] = joblib.load(sax_path)
+
         for fname in ("tabular_xgb.joblib", "tabular_rf.joblib"):
             p = ds_dir / fname
             if p.exists():
                 bundle["tabular_models"][fname] = joblib.load(p)
 
-        for pt_name in ("best_sequence.pt", "sequence_bilstm.pt", "sequence_1dcnn.pt"):
+        for pt_name in ("best_sequence.pt", "federated_bilstm.pt", "sequence_bilstm.pt", "sequence_1dcnn.pt"):
             pt_path = ds_dir / pt_name
             if pt_path.exists():
                 bundle["checkpoints"][pt_name] = pt_path
@@ -318,6 +323,18 @@ def _prepare_engineered_frame(
 
     if is_unified:
         df_feat = _attach_dataset_onehot(df_feat, dataset_id)
+
+    sax_extractor = fault_bundle.get("saxena_extractor")
+    if sax_extractor is not None:
+        try:
+            per_norm = fault_bundle.get("normalizer")
+            df_for_sax = per_norm.transform(raw_df) if (is_unified and per_norm is not None) else df_norm
+            df_sax, sax_cols = sax_extractor.transform(df_for_sax)
+            for sc in ["saxena_a", *sax_cols]:
+                if sc in df_sax.columns:
+                    df_feat[sc] = df_sax[sc].to_numpy()
+        except Exception:
+            pass
 
     return df_feat, regimes, fault_probs, fault_cols
 
@@ -1147,16 +1164,100 @@ def render_tab_maintenance_simulator() -> None:
             st.image(str(fig_maint), caption="Baseline Simulation Report Output", width="stretch")
 
 
+def render_tab_physics_federated_conformal() -> None:
+    """Tab 5: Saxena (a, b) Physics Curve-Fitting, 3-Client FedAvg, and Conformal Calibration."""
+    st.header("Physics-Informed Federated Conformal Prognostics")
+    st.markdown(
+        "Combines **(1)** nonlinear least-squares extraction of Saxena et al. (2008) degradation "
+        "parameters `(a, b)` from `h(t) = 1 - exp(-a · t^b)`, **(2)** 3-client simulated Federated "
+        "Averaging (`FedAvg`, McMahan et al., 2017) on multi-regime subsets (`FD002`/`FD004`), and "
+        "**(3)** distribution-free 90% split-conformal prediction intervals (Vovk et al.)."
+    )
+
+    st.subheader("1. Saxena et al. (2008) Eq. 4/5 Physics Feature Extraction: h(t) = 1 - exp(-a · t^b)")
+    st.caption(
+        "Fits `(a, b)` causally over prefix cycles `1..t` against a smoothed, regime-normalized "
+        "composite HPC/EGT signal. Because nonlinear curve fitting requires sufficient cycle history "
+        "to resolve curvature, we report performance stratified across Early Life, Mid Life, and Late Life."
+    )
+    phys_df = _read_csv(RESULTS_DIR / "ablation_physics_ab.csv")
+    if phys_df is not None:
+        st.dataframe(phys_df, width="stretch", hide_index=True)
+    else:
+        st.info("Run `python scripts/run_aerofed_experiments.py` to populate `ablation_physics_ab.csv`.")
+
+    fig_phys = FIGURES_DIR / "ablation_physics_ab.png"
+    if fig_phys.exists():
+        st.image(
+            str(fig_phys),
+            caption="Causal Prefix Fits of h(t) = 1 - exp(-a·t^b) and Lifecycle Stage RMSE Impact",
+            width="stretch",
+        )
+
+    param_df = _read_csv(RESULTS_DIR / "saxena_fitted_parameters.csv")
+    if param_df is not None and not param_df.empty:
+        with st.expander("Inspect Fitted (a, log10_a, b, R²) Summary Across Training Engines"):
+            summary_stats = (
+                param_df.groupby("dataset_id")[["saxena_log10_a", "saxena_b", "saxena_hi_final", "saxena_r2_final"]]
+                .agg(["mean", "median", "std"])
+                .round(3)
+            )
+            st.dataframe(summary_stats, width="stretch")
+
+    st.subheader("2. Simulated 3-Operator Federated Learning (`FedAvg`) on FD002 & FD004")
+    st.info(
+        "**Explicit Scope Note:** The 3-client split (`Client A: High-Altitude/High-Mach`, "
+        "`Client B: Low-Altitude/Low-Throttle`, `Client C: Mixed Regime`) is a **simulated partition "
+        "of a single public dataset** (NASA C-MAPSS `FD002`/`FD004`), not real cross-airline proprietary data. "
+        "The Centralized Pooled row represents an upper-bound reference ceiling where all raw telemetry is pooled."
+    )
+    fed_df = _read_csv(RESULTS_DIR / "federated_client_comparison.csv")
+    if fed_df is not None:
+        scope_filter = st.selectbox(
+            "Filter Evaluation Scope",
+            ["All Test Engines (Pooled Fleet)", *sorted(fed_df["eval_scope"].unique().tolist())],
+            index=0,
+            key="fed_scope_filter",
+        )
+        sub_fed = fed_df[fed_df["eval_scope"] == scope_filter].copy()
+        st.dataframe(sub_fed.round(3), width="stretch", hide_index=True)
+    else:
+        st.info("Run `python scripts/run_aerofed_experiments.py` to populate `federated_client_comparison.csv`.")
+
+    fig_fed = FIGURES_DIR / "federated_convergence_and_clients.png"
+    if fig_fed.exists():
+        st.image(
+            str(fig_fed),
+            caption="FedAvg Validation Convergence Across Communication Rounds & Client Comparison",
+            width="stretch",
+        )
+
+    st.subheader("3. Split-Conformal Prediction Calibration Audit (90% Target Coverage)")
+    conf_df = _read_csv(RESULTS_DIR / "conformal_calibration_audit.csv")
+    if conf_df is not None:
+        st.dataframe(conf_df.round(4), width="stretch", hide_index=True)
+    else:
+        st.info("Run `python scripts/run_aerofed_experiments.py` to populate `conformal_calibration_audit.csv`.")
+
+    with st.expander("4. Modeling Assumptions & Known Limitations"):
+        st.markdown(
+            "- **Simulated Operator Split:** The 3-client partition on `FD002`/`FD004` models operator regime specialization on a single simulator dataset, not real cross-company telemetry at production fleet scale.\n"
+            "- **Early-Cycle `(a, b)` Identifiability:** Nonlinear least squares on `h(t) = 1 - exp(-a · t^b)` requires sufficient degradation excursion to identify `a` and `b` separately; early in life (`cycle < 35`), estimates shrink toward the training prior.\n"
+            "- **Single-Exponential Functional Form:** Assumes degradation follows the Saxena et al. (2008) exponential trajectory without maintenance washes or step-change foreign-object damage.\n"
+            "- **Calibration Set Size:** Engine-level conformal coverage guarantees depend on the held-out calibration engine count (20% of training engines per subset)."
+        )
+
+
 def main() -> None:
     st.set_page_config(
-        page_title="Turbofan Predictive Maintenance & RUL",
+        page_title="STAR WARS — Turbofan Conformal & Federated Prognostics",
         page_icon="✈️",
         layout="wide",
     )
-    st.title("Turbofan Engine RUL Prediction & Predictive Maintenance")
+    st.title("STAR WARS: Physics-Informed Federated Conformal Prognostics")
     st.markdown(
-        "**NASA C-MAPSS (FD001–FD004)** | Mitigating **$500K–$1M+** unscheduled engine removals and "
-        "**$150K/day** AOG penalties across a **300-engine fleet**."
+        "**NASA C-MAPSS (`FD001`–`FD004`)** | Regime-Conditioned RUL Estimation, Saxena `(a, b)` Physics "
+        "Curve-Fitting, 3-Client Simulated `FedAvg`, and 90% Split-Conformal Maintenance Dispatch."
     )
 
     with st.sidebar:
@@ -1165,18 +1266,21 @@ def main() -> None:
             ready = (MODELS_DIR / ds / "best_sequence.pt").exists()
             st.write(f"{'✅' if ready else '⏳'} `{ds}` model bundle")
         uni_ready = (MODELS_DIR / "unified" / "sequence_bilstm.pt").exists()
+        fed_ready = (RESULTS_DIR / "federated_client_comparison.csv").exists()
         bench_ready = (RESULTS_DIR / "benchmark_comparison.csv").exists()
         sim_ready = (RESULTS_DIR / "maintenance_simulation.json").exists()
         st.write(f"{'✅' if uni_ready else '⏳'} Unified multi-dataset bundle")
+        st.write(f"{'✅' if fed_ready else '⏳'} Physics `(a,b)` & `FedAvg` audit")
         st.write(f"{'✅' if bench_ready else '⏳'} Benchmark CSV")
         st.write(f"{'✅' if sim_ready else '⏳'} Maintenance simulation JSON")
 
-    tab1, tab2, tab3, tab4 = st.tabs(
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(
         [
             "1. Live Engine Diagnostics",
             "2. Dataset & EDA Insights",
             "3. Ablations & Benchmarks",
             "4. 300-Engine Fleet Simulator",
+            "5. Physics (a,b) & Federated Conformal",
         ]
     )
     with tab1:
@@ -1187,6 +1291,8 @@ def main() -> None:
         render_tab_ablations_benchmarks()
     with tab4:
         render_tab_maintenance_simulator()
+    with tab5:
+        render_tab_physics_federated_conformal()
 
 
 if __name__ == "__main__":

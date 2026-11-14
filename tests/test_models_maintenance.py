@@ -368,7 +368,7 @@ def test_streamlit_app_syntax_and_apptest_smoke() -> None:
     at.run()
     assert len(at.exception) == 0, [e.message for e in at.exception]
     assert len(at.error) == 0, [e.value for e in at.error]
-    assert len(at.tabs) == 4
+    assert len(at.tabs) == 5
 
 
 def test_streamlit_real_artifacts_and_interactive_flows() -> None:

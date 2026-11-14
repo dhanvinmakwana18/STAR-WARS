@@ -1,5 +1,14 @@
 """Tabular and PyTorch sequence models for Turbofan Engine RUL prediction."""
 
+from src.models.federated import (
+    CLIENT_IDS,
+    CLIENT_LABELS,
+    build_client_sequence_datasets,
+    calibrate_and_evaluate_conformal,
+    fedavg_aggregate_state_dicts,
+    partition_units_into_operator_clients,
+    train_fedavg_model,
+)
 from src.models.sequence import (
     BiLSTMRegressor,
     Deep1DCNNRegressor,
@@ -44,4 +53,11 @@ __all__ = [
     "save_sequence_checkpoint",
     "load_sequence_checkpoint",
     "train_sequence_model",
+    "CLIENT_IDS",
+    "CLIENT_LABELS",
+    "partition_units_into_operator_clients",
+    "build_client_sequence_datasets",
+    "fedavg_aggregate_state_dicts",
+    "train_fedavg_model",
+    "calibrate_and_evaluate_conformal",
 ]

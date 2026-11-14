@@ -1,29 +1,28 @@
-# Turbofan Engine RUL Prediction & Fleet Maintenance Intelligence
+# STAR WARS: Physics-Informed Federated Conformal Prognostics
 
-**End-to-End Predictive Maintenance on NASA C-MAPSS (`FD001`–`FD004`) | Pure Python, PyTorch, XGBoost & Streamlit**
+**End-to-End Predictive Maintenance on NASA C-MAPSS (`FD001`–`FD004`) | Pure Python, PyTorch, XGBoost, SciPy & Streamlit**
 
 ---
 
-## Business Framing & Financial Impact
+## Business Framing & Cost Simulation Context
 
-Unscheduled jet engine removals cost **$500K–$1M+ per incident**, and Aircraft-on-Ground (AOG) delays can reach **$150K/day** ($300K over a 2-day outage). Shifting from static fixed-interval overhauls to Remaining Useful Life (RUL)-driven predictive maintenance is estimated across aviation MRO benchmarks to cut fleet maintenance spend by **10–40%** — tens of millions of dollars annually for a commercial fleet.
-
-Evaluating our trained sequence models across **142 held-out run-to-failure validation engines** scaled to a **300-engine fleet** (800 flight cycles/engine/year; $120K scheduled overhaul, $750K unscheduled removal + $300K AOG penalty, $1,200/cycle wasted-life cost beyond a 10-cycle grace window):
+Unscheduled jet engine removals are modeled against standard aviation MRO cost assumptions (**$750K unscheduled removal + $300K 2-day AOG penalty**, **$120K scheduled overhaul**, **$1,200/cycle wasted-life cost** beyond a 10-cycle grace window). Evaluating held-out validation trajectories across **142 run-to-failure engines** scaled to a simulated **300-engine fleet** (800 flight cycles/engine/year):
 
 | Maintenance Policy | Unplanned Failures (142 Engines) | Failures Avoided vs Fixed-150 | Engines Pulled Early | Avg Wasted Cycles | Annual 300-Engine Fleet Cost | Annual Savings vs Baseline | Cost Reduction |
 |---|---|---|---|---|---|---|---|
 | **Fixed-Interval (150 cycles)** | 6 (4.2%) | — | 103 (72.5%) | 56.03 | **$243.60M/yr** | — | — |
 | **Best Fixed-Interval (140 cycles)** | 1 (0.7%) | 5 | 109 (76.8%) | 64.36 | **$219.14M/yr** | — | — |
-| **Predictive RUL (`threshold = 20` cyc)** | **0 (0.0%)** | **6 (100% eliminated)** | **6 (4.2%)** | **2.89** | **$132.78M/yr** | **$110.82M/yr** *(vs Fixed-150)* / **$86.36M/yr** *(vs Best-Fixed 140)* | **45.5%** *(vs Fixed-150)* / **39.4%** *(vs Best-Fixed 140)* |
+| **Predictive RUL (`threshold = 20` cyc)** | **0 (0.0%)** | **6 (100% avoided in val sample)** | **6 (4.2%)** | **2.89** | **$132.78M/yr** | **$110.82M/yr** *(vs Fixed-150)* / **$86.36M/yr** *(vs Best-Fixed 140)* | **45.5%** *(vs Fixed-150)* / **39.4%** *(vs Best-Fixed 140)* |
 
 ---
 
 ## Engineering Highlights
 
-1. **All 4 NASA C-MAPSS Subsets (`FD001`–`FD004`)**: Built and benchmarked across single-condition, multi-condition (6 flight regimes), single-fault, and dual-fault (HPC + Fan) fleets — rather than cherry-picking `FD001` alone.
-2. **Leakage-Free Within-Regime Normalization (`KMeans k=6`)**: Exposed and solved the multi-operating-condition masking problem on `FD002`/`FD004`, cutting `FD004` Deep1DCNN RMSE by **17.3%** (`22.91 → 18.95`) and NASA Score by **28.9%** (`4,244.3 → 3,017.2`), and `FD002` XGBoost NASA Score by **46.2%** (`2,198.5 → 1,182.1`).
-3. **Asymmetric Safety Scoring (Saxena et al., 2008 Eq. 11)**: Evaluated every model on both RMSE and the NASA asymmetric exponential score alongside **MC Dropout + split-conformal 90% prediction intervals**.
-4. **Unified Multi-Dataset Modeling**: Trained a single `Unified BiLSTM` across all 709 training engines (`FD001`–`FD004` with dataset & regime one-hot features) that **outperforms Zheng et al. (2017) on all 4 subsets** (`13.90`, `14.37`, `13.44`, `14.69` RMSE) and **beats Li et al. (2018) on `FD002`/`FD004` by 35.7%–37.0% RMSE and 91.9%–92.6% NASA Score**.
+1. **All 4 NASA C-MAPSS Subsets (`FD001`–`FD004`)**: Benchmarked across single-condition, 6-regime, single-fault, and dual-fault (HPC + Fan) fleets rather than `FD001` alone.
+2. **Leakage-Free Within-Regime Normalization (`KMeans k=6`)**: Isolates degradation slopes from 6-regime flight-envelope shifts on `FD002`/`FD004`, cutting `FD004` Deep1DCNN RMSE by **17.3%** (`22.91 → 18.95`) and NASA Score by **28.9%** (`4,244.3 → 3,017.2`), and `FD002` XGBoost NASA Score by **46.2%** (`2,198.5 → 1,182.1`).
+3. **Causal Saxena et al. (2008) Eq. 4/5 Physics Curve-Fitting (`h(t) = 1 - exp(-a · t^b)`)**: Fits exponential degradation parameters `(a, b)` causally per engine prefix (`1..t`, zero future leakage) via analytical-Jacobian nonlinear least squares (`median R² = 0.958–0.972`), reducing XGBoost Test RMSE by **2.47–3.97 cycles (16.4%–22.0%)** and NASA Score by **35.6%–74.7%** across `FD001`–`FD004`.
+4. **3-Client Simulated Federated Learning (`FedAvg`) & Split-Conformal Calibration**: Evaluates regime-skewed operator silos (`Client A`, `Client B`, `Client C` — explicitly a **simulated partition of a single public dataset**, not real airline telemetry) against local-only and centralized pooled ceilings, paired with distribution-free 90% split-conformal prediction intervals.
+5. **Unified Multi-Dataset Sequence Model**: A single `Unified BiLSTM` trained across all 709 training engines (`FD001`–`FD004`) achieves `13.90`, `14.37`, `13.44`, and `14.69` RMSE across `FD001`–`FD004`.
 
 ---
 
@@ -120,6 +119,65 @@ Pooling all **709 training engines** across `FD001`–`FD004` with `dataset_FD00
 | **FD004** | Deep1DCNN | 18.95 | **16.42** | -2.53 | 3,017.2 | **1,251.0** | -58.5% |
 | **FD004** | BiLSTM | 16.02 | **14.69** | -1.33 | 1,474.5 | **1,007.8** | -31.7% |
 
+### 4. Causal Saxena et al. (2008) Eq. 4/5 Physics Curve-Fitting (`h(t) = 1 - exp(-a · t^b)`)
+
+Building on the underlying simulator's exponential wear law (`Saxena et al., 2008`), `SaxenaPhysicsExtractor` constructs a smoothed, regime-normalized composite HPC/EGT degradation signal from training engines and causally fits `(log10_a, b, h_hat(t), R^2)` using **only prefix cycles `1..t`** at each step (zero future leakage). Early cycles (`cycle < 35`) shrink smoothly toward the training-set prior because the two parameters are underdetermined before fault onset.
+
+Across all four official C-MAPSS test sets (`XGBoost`, identical hyperparameters with vs. without causal `(a, b)` features):
+
+| Dataset | Split / Life-Stage Segment | Without `(a, b)` RMSE | With `(a, b)` RMSE | RMSE Δ | Without `(a, b)` NASA | With `(a, b)` NASA | NASA Δ |
+|---|---|---|---|---|---|---|---|
+| **FD001** | **Official Test Set (100 Units)** | 18.07 | **14.10** | **-3.97 (-22.0%)** | 1,067.7 | **270.3** | **-797.4 (-74.7%)** |
+| **FD002** | **Official Test Set (259 Units)** | 15.10 | **12.63** | **-2.47 (-16.4%)** | 1,182.1 | **761.5** | **-420.5 (-35.6%)** |
+| **FD003** | **Official Test Set (100 Units)** | 17.56 | **14.28** | **-3.27 (-18.6%)** | 993.6 | **421.6** | **-572.0 (-57.6%)** |
+| **FD004** | **Official Test Set (248 Units)** | 17.44 | **14.38** | **-3.06 (-17.5%)** | 2,496.8 | **1,079.7** | **-1,417.0 (-56.8%)** |
+| **FD001** | Val: Early / Mid / Late Life | 10.26 / 23.19 / 13.08 | 2.97 / 16.39 / 6.65 | -7.28 / -6.80 / -6.43 | 775 / 27,775 / 5,455 | 122 / 6,738 / 732 | -84% / -76% / -87% |
+| **FD004** | Val: Early / Mid / Late Life | 7.59 / 22.87 / 13.84 | 1.51 / 17.90 / 10.88 | -6.08 / -4.98 / -2.96 | 1,122 / 54,178 / 23,495 | 111 / 35,844 / 11,419 | -90% / -34% / -51% |
+
+> **Engineering Note:** Fitted end-of-life trajectory `R^2` across training engines averages `0.967` (`FD001`), `0.959` (`FD002`), `0.959` (`FD003`), and `0.951` (`FD004`). Early-life (`cycle < 35`) gains stem largely from training-prior shrinkage and causal trajectory smoothing rather than curvature identifiability; true exponential curve convergence (`b ~ 4.1–4.5`) resolves once degradation leaves the flat baseline.
+
+![Saxena Physics Ablation](reports/figures/ablation_physics_ab.png)
+
+### 5. Simulated 3-Client Federated Learning (`FedAvg`) on `FD002` & `FD004`
+
+> **Explicit Scope Note:** Partitioning `FD002` and `FD004` engines into three operators (`Client A`: high-altitude/high-Mach, `Client B`: low-altitude/low-throttle, `Client C`: mixed) is a **simulated split of a single public dataset**, not real cross-airline telemetry. The Centralized Pooled row is a reference upper bound where raw data sharing is allowed.
+
+Each client (`client_a_high_alt_mach`, `client_b_low_alt_throttle`, `client_c_mixed`) trains locally on 28 sequence channels (14 regime-normalized sensors, 3 operational settings, 6 regime indicators, and 5 causal Saxena `(a, b)` features), sharing only model weights (`state_dict`) via `FedAvg` (`McMahan et al., 2017`):
+
+| Dataset | Strategy | Local Epochs | Pooled Fleet Test RMSE | Client A RMSE | Client B RMSE | Client C RMSE | Pooled NASA Score |
+|---|---|---|---|---|---|---|---|
+| **FD002** | Local-Only (`Client A`) | 12 | 36.52 | 36.03 | 40.06 | 33.17 | 7,615.0 |
+| **FD002** | Local-Only (`Client B`) | 12 | 33.63 | 32.94 | 36.75 | 30.99 | 5,542.7 |
+| **FD002** | Local-Only (`Client C`) | 12 | 14.60 | 12.50 | 16.01 | 15.06 | 1,351.4 |
+| **FD002** | **Global Federated (`FedAvg, E=1`)** | 1/rd × 12 | 14.74 | 12.80 | 16.24 | 14.99 | 1,211.7 |
+| **FD002** | **Global Federated (`FedAvg, E=2`)** | 2/rd × 12 | **13.71** | **11.77** | 14.56 | 14.61 | 1,183.8 |
+| **FD002** | **Global Federated (`FedAvg, E=4`)** | 4/rd × 12 | **13.15** | 11.89 | **14.40** | **13.03** | **1,157.8** |
+| **FD002** | Centralized Pooled *(Ceiling)* | 14 | 11.97 | 10.15 | 12.90 | 12.67 | 800.9 |
+| **FD004** | Local-Only (`Client A`) | 12 | 48.79 | 51.67 | 47.08 | 47.51 | 22,336.0 |
+| **FD004** | Local-Only (`Client B`) | 12 | 28.37 | 29.03 | 26.50 | 29.46 | 5,851.2 |
+| **FD004** | Local-Only (`Client C`) | 12 | 17.26 | 17.84 | 14.40 | 19.13 | 1,585.1 |
+| **FD004** | **Global Federated (`FedAvg, E=1`)** | 1/rd × 12 | 16.95 | 17.14 | 14.42 | 18.93 | 1,767.1 |
+| **FD004** | **Global Federated (`FedAvg, E=2`)** | 2/rd × 12 | **14.24** | 13.96 | 13.59 | 15.09 | 1,246.5 |
+| **FD004** | **Global Federated (`FedAvg, E=4`)** | 4/rd × 12 | **13.14** | **12.47** | **13.23** | **13.68** | **985.8** |
+| **FD004** | Centralized Pooled *(Ceiling)* | 14 | 13.57 | 12.29 | 13.32 | 14.95 | 1,119.6 |
+
+> **Key Federated Takeaway:** Narrow-envelope operators (`Client A` and `Client B`, with skewed operating-condition coverage) fail badly in isolation (`28.37–48.79` RMSE). `FedAvg` closes most or all of the gap to centralized training without transferring raw sensor logs (`FD002`: `13.15` vs `11.97` ceiling; `FD004`: `13.14` vs `13.57` under `E=4`).
+
+![Federated Convergence and Client Comparison](reports/figures/federated_convergence_and_clients.png)
+
+### 6. Split-Conformal Calibration Audit (Target: 90% Nominal Coverage)
+
+Calibrating conformal residuals on full held-out validation trajectories (`RUL in [0, 125]`, rather than terminal `RUL = 0` snapshots alone which violate exchangeability against censored test engines) yields near-nominal marginal coverage for the global `FedAvg (E=2)` model across unseen official test engines:
+
+| Dataset | Scope | `q_hat` (cycles) | Empirical Coverage | Mean Width (cycles) | Test RMSE |
+|---|---|---|---|---|---|
+| **FD002** | **All Test Engines (Pooled, n=259)** | 23.66 | **90.3%** | 44.61 | 13.71 |
+| **FD002** | Client A / B / C (Per-Client Cal) | 26.71 / 29.24 / 16.49 | 95.3% / 91.9% / 79.3% | 49.11 / 56.54 / 31.43 | 11.77 / 14.56 / 14.61 |
+| **FD004** | **All Test Engines (Pooled, n=248)** | 22.67 | **87.9%** | 43.59 | 14.24 |
+| **FD004** | Client A / B / C (Per-Client Cal) | 19.36 / 33.80 / 16.88 | 82.9% / 97.6% / 82.1% | 37.16 / 64.15 / 33.11 | 13.96 / 13.59 / 15.09 |
+
+> **Calibration Lesson:** Small single-client calibration splits (`Client C` on `FD002`, `79.3%`) exhibit finite-sample variance when operator regimes differ slightly between train and censored test cutoffs, motivating pooled or larger per-client calibration sets in practice.
+
 ---
 
 ## Literature Benchmark Comparison (`Phase 5`)
@@ -202,14 +260,24 @@ Using real cycle-by-cycle validation trajectories from the per-dataset BiLSTM mo
 
 ## Interactive Streamlit Dashboard (`app/streamlit_app.py`)
 
-Run the 4-tab diagnostic and fleet simulator app locally:
+Run the 5-tab diagnostic, physics-federated, and fleet simulator app locally:
 
 - **Tab 1 — Live Engine Diagnostics & RUL Inference**
-  - *Mode A (Test Engine Replay)*: Scrub any real `FD001`–`FD004` test engine cycle-by-cycle using per-dataset or unified trained checkpoints (`BiLSTM`, `Deep1DCNN`, `XGBoost`, `RandomForest`) to view live RUL + 90% conformal band, operating regime (`KMeans k=6`), latent fault-mode probabilities (`FD003`/`FD004`), and Maintenance Status Badge (`HEALTHY > 40`, `MONITOR 20–40`, `CRITICAL <= 20`).
+  - *Mode A (Test Engine Replay)*: Scrub any real `FD001`–`FD004` test engine cycle-by-cycle using per-dataset, unified, or federated trained checkpoints (`BiLSTM`, `Deep1DCNN`, `XGBoost`, `RandomForest`, `Federated FedAvg BiLSTM`) to view live RUL + 90% conformal band, operating regime (`KMeans k=6`), latent fault-mode probabilities (`FD003`/`FD004`), and Maintenance Status Badge (`HEALTHY > 40`, `MONITOR 20–40`, `CRITICAL <= 20`).
   - *Mode B (Interactive Sensor & Operating Sliders)*: Adjust normalized Z-scores or raw physical sensor values and operating settings to observe real-time RUL, uncertainty interval, and top contributing sensors.
 - **Tab 2 — Dataset & EDA Insights**: Difficulty progression table, constant vs informative sensors comparison, and EDA visualizations.
 - **Tab 3 — Engineering Ablations & Literature Benchmarks**: Regime normalization, fault-mode clustering, unified vs per-dataset tables, and full benchmark comparison (Clipped@125 & Unclipped).
-- **Tab 4 — 300-Engine Fleet Maintenance Simulator**: Interactive financial sliders (unscheduled removal, AOG/day, scheduled overhaul, threshold, fixed interval) computing live unplanned failures avoided, early pulls, and annual `$M` savings.
+- **Tab 4 — 300-Engine Fleet Maintenance Simulator**: Interactive financial sliders computing live unplanned failures avoided, early pulls, and simulated annual `$M` savings.
+- **Tab 5 — Physics `(a, b)` & Federated Conformal**: Causal Saxena `(a, b)` lifecycle-stratified ablation, simulated 3-client `FedAvg` vs local-only vs centralized comparison (with explicit scope warnings), and 90% split-conformal calibration coverage audit.
+
+---
+
+## Modeling Assumptions & Known Limitations (What This System Does NOT Prove)
+
+- **Simulated 3-Client Operator Split:** Partitioning `FD002`/`FD004` into `Client A` (high-altitude/Mach), `Client B` (low-altitude/throttle), and `Client C` (mixed) is a **simulated split of a single public dataset**, not real cross-airline proprietary telemetry, and 3 clients over a few hundred engines demonstrates the `FedAvg` mechanism at small scale rather than production fleet convergence.
+- **Single-Exponential Degradation Functional Form:** Causal `(a, b)` curve fitting assumes the Saxena et al. (2008) `h(t) = 1 - exp(-a · t^b)` simulator law without engine washes, foreign-object step damage, or component swaps.
+- **Aggregate Sensor Telemetry:** C-MAPSS provides 21 aggregate engine-level sensor readings per cycle, not per-blade or per-component telemetry; operating-regime and fault-mode clusters are hand-specified unsupervised groupings (`k=6`, `k=2`), not discovered physical causal graphs.
+- **Calibration Set Size & Financial Model Assumptions:** Split-conformal finite-sample coverage bounds depend on the held-out calibration engine count (`20%` of training engines per subset), and the `$110.82M/yr` cost figure reflects assumed MRO unit costs over 142 validation engines scaled to 300 engines, not an empirical field trial.
 
 ---
 
@@ -217,27 +285,31 @@ Run the 4-tab diagnostic and fleet simulator app locally:
 
 ```text
 ├── app/
-│   └── streamlit_app.py              # 4-tab interactive diagnostics & fleet cost simulator
+│   └── streamlit_app.py              # 5-tab interactive diagnostics, federated & fleet simulator
 ├── data/raw/                         # NASA C-MAPSS FD001-FD004 text files
+├── docs/
+│   ├── aerofed_research_memo.md      # Technical scope, constraints, and defensibility memo
+│   └── STAR_WARS_DOCUMENTARY.md      # Full engineering whitepaper
 ├── models/
-│   ├── FD001..FD004/                 # Saved normalizers, fault clusterers, RF/XGB/CNN/BiLSTM checkpoints
+│   ├── FD001..FD004/                 # Normalizers, saxena_extractor.joblib, RF/XGB/CNN/BiLSTM/FedAvg
 │   └── unified/                      # Multi-dataset normalizer, Unified XGBoost/1D-CNN/BiLSTM
 ├── reports/
-│   ├── figures/                      # EDA, ablation, benchmark, and maintenance cost plots
-│   └── results/                      # Verified JSON/CSV metrics & validation trajectories
+│   ├── figures/                      # EDA, ablation, physics, federated, and cost plots
+│   └── results/                      # Verified JSON/CSV metrics, ablations, & conformal audit
 ├── scripts/
 │   ├── download_data.py              # Raw C-MAPSS downloader
 │   ├── run_eda.py                    # Phase 1 EDA & variance summary generator
 │   ├── run_experiments.py            # Phases 2-5 ablations, model training & test evaluation
+│   ├── run_aerofed_experiments.py    # Saxena (a,b) ablation, 3-client FedAvg & conformal audit
 │   └── run_maintenance_sim.py        # Phase 6 fleet cost simulation & plot generator
 ├── src/
 │   ├── config.py                     # Paths, constants, canonical drop/informative sensors
 │   ├── data/                         # Loader, engine-level split, RegimeNormalizer (KMeans k=6)
-│   ├── features/                     # Causal rolling stats, FaultModeClusterer, sequence windows
-│   ├── models/                       # Tabular (RF/XGB + conformal) & PyTorch (1D-CNN/BiLSTM + MC Dropout)
+│   ├── features/                     # Causal rolling stats, FaultModeClusterer, Saxena (a,b) extractor
+│   ├── models/                       # Tabular (RF/XGB), Sequence (1D-CNN/BiLSTM), Federated (FedAvg)
 │   ├── evaluation/                   # RMSE, MAE, NASA asymmetric score, benchmarks, maintenance sim
 │   └── utils/                        # Plotting utilities
-├── tests/                            # Pytest suite (data, causality, metrics, models, Streamlit smoke)
+├── tests/                            # Pytest suite (31 tests across data, causality, physics, FedAvg, UI)
 ├── pyproject.toml
 └── requirements.txt
 ```
@@ -256,9 +328,10 @@ set MPLCONFIGDIR=.cache/matplotlib   # PowerShell: $env:MPLCONFIGDIR=".cache/mat
 # 3. Run unit & integration tests
 pytest -v
 
-# 4. Reproduce EDA, model training/ablations, and maintenance simulation
+# 4. Reproduce EDA, baselines, Saxena (a,b) + FedAvg experiments, and maintenance simulation
 python scripts/run_eda.py
 python scripts/run_experiments.py
+python scripts/run_aerofed_experiments.py
 python scripts/run_maintenance_sim.py
 
 # 5. Launch the interactive Streamlit app

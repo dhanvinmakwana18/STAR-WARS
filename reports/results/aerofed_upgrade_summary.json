@@ -1,0 +1,312 @@
+{
+  "physics_ablation_test": [
+    {
+      "dataset_id": "FD001",
+      "split_segment": "Official Test Set (All Units)",
+      "rmse_without_ab": 18.072,
+      "rmse_with_ab": 14.103,
+      "rmse_delta": -3.969,
+      "nasa_without_ab": 1067.7,
+      "nasa_with_ab": 270.3,
+      "nasa_delta": -797.4,
+      "n_samples": 100
+    },
+    {
+      "dataset_id": "FD002",
+      "split_segment": "Official Test Set (All Units)",
+      "rmse_without_ab": 15.1,
+      "rmse_with_ab": 12.627,
+      "rmse_delta": -2.473,
+      "nasa_without_ab": 1182.1,
+      "nasa_with_ab": 761.5,
+      "nasa_delta": -420.5,
+      "n_samples": 259
+    },
+    {
+      "dataset_id": "FD003",
+      "split_segment": "Official Test Set (All Units)",
+      "rmse_without_ab": 17.555,
+      "rmse_with_ab": 14.284,
+      "rmse_delta": -3.271,
+      "nasa_without_ab": 993.6,
+      "nasa_with_ab": 421.6,
+      "nasa_delta": -572.0,
+      "n_samples": 100
+    },
+    {
+      "dataset_id": "FD004",
+      "split_segment": "Official Test Set (All Units)",
+      "rmse_without_ab": 17.442,
+      "rmse_with_ab": 14.384,
+      "rmse_delta": -3.058,
+      "nasa_without_ab": 2496.8,
+      "nasa_with_ab": 1079.7,
+      "nasa_delta": -1417.0,
+      "n_samples": 248
+    }
+  ],
+  "federated_pooled_summary": [
+    {
+      "dataset_id": "FD002",
+      "strategy": "Local-Only (client_a_high_alt_mach)",
+      "local_epochs": 12,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 36.518,
+      "mae": 29.726,
+      "nasa_score": 7615.0,
+      "n_test_units": 259
+    },
+    {
+      "dataset_id": "FD002",
+      "strategy": "Local-Only (client_b_low_alt_throttle)",
+      "local_epochs": 12,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 33.632,
+      "mae": 27.799,
+      "nasa_score": 5542.7,
+      "n_test_units": 259
+    },
+    {
+      "dataset_id": "FD002",
+      "strategy": "Local-Only (client_c_mixed)",
+      "local_epochs": 12,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 14.601,
+      "mae": 10.161,
+      "nasa_score": 1351.4,
+      "n_test_units": 259
+    },
+    {
+      "dataset_id": "FD002",
+      "strategy": "Global Federated (FedAvg, E=1)",
+      "local_epochs": 1,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 14.743,
+      "mae": 10.596,
+      "nasa_score": 1211.7,
+      "n_test_units": 259
+    },
+    {
+      "dataset_id": "FD002",
+      "strategy": "Global Federated (FedAvg, E=2)",
+      "local_epochs": 2,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 13.713,
+      "mae": 9.16,
+      "nasa_score": 1183.8,
+      "n_test_units": 259
+    },
+    {
+      "dataset_id": "FD002",
+      "strategy": "Global Federated (FedAvg, E=4)",
+      "local_epochs": 4,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 13.146,
+      "mae": 8.617,
+      "nasa_score": 1157.8,
+      "n_test_units": 259
+    },
+    {
+      "dataset_id": "FD002",
+      "strategy": "Centralized Pooled (Upper-Bound Ceiling)",
+      "local_epochs": 14,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 11.97,
+      "mae": 8.139,
+      "nasa_score": 800.9,
+      "n_test_units": 259
+    },
+    {
+      "dataset_id": "FD004",
+      "strategy": "Local-Only (client_a_high_alt_mach)",
+      "local_epochs": 12,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 48.786,
+      "mae": 43.436,
+      "nasa_score": 22336.0,
+      "n_test_units": 248
+    },
+    {
+      "dataset_id": "FD004",
+      "strategy": "Local-Only (client_b_low_alt_throttle)",
+      "local_epochs": 12,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 28.367,
+      "mae": 24.091,
+      "nasa_score": 5851.2,
+      "n_test_units": 248
+    },
+    {
+      "dataset_id": "FD004",
+      "strategy": "Local-Only (client_c_mixed)",
+      "local_epochs": 12,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 17.256,
+      "mae": 12.409,
+      "nasa_score": 1585.1,
+      "n_test_units": 248
+    },
+    {
+      "dataset_id": "FD004",
+      "strategy": "Global Federated (FedAvg, E=1)",
+      "local_epochs": 1,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 16.949,
+      "mae": 11.718,
+      "nasa_score": 1767.1,
+      "n_test_units": 248
+    },
+    {
+      "dataset_id": "FD004",
+      "strategy": "Global Federated (FedAvg, E=2)",
+      "local_epochs": 2,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 14.235,
+      "mae": 9.391,
+      "nasa_score": 1246.5,
+      "n_test_units": 248
+    },
+    {
+      "dataset_id": "FD004",
+      "strategy": "Global Federated (FedAvg, E=4)",
+      "local_epochs": 4,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 13.138,
+      "mae": 8.608,
+      "nasa_score": 985.8,
+      "n_test_units": 248
+    },
+    {
+      "dataset_id": "FD004",
+      "strategy": "Centralized Pooled (Upper-Bound Ceiling)",
+      "local_epochs": 14,
+      "eval_scope": "All Test Engines (Pooled Fleet)",
+      "rmse": 13.574,
+      "mae": 9.146,
+      "nasa_score": 1119.6,
+      "n_test_units": 248
+    }
+  ],
+  "conformal_audit": [
+    {
+      "dataset_id": "FD002",
+      "model": "Global Federated BiLSTM (FedAvg E=2)",
+      "calibration_scope": "All Test Engines (Pooled Fleet)",
+      "nominal_coverage": 0.9,
+      "conformal_q_cycles": 23.65993574792055,
+      "empirical_coverage": 0.9034749034749034,
+      "empirical_coverage_clipped_band": 0.9034749034749034,
+      "mean_interval_width_cycles": 44.613458170933136,
+      "mean_interval_width_clipped": 37.27474694636604,
+      "rmse": 13.712831719395616,
+      "mae": 9.15955526856382,
+      "nasa_score": 1183.8251136971223,
+      "n_test_engines": 259
+    },
+    {
+      "dataset_id": "FD002",
+      "model": "Global Federated BiLSTM (FedAvg E=2)",
+      "calibration_scope": "client_a_high_alt_mach (Client A (High-Alt / High-Mach))",
+      "nominal_coverage": 0.9,
+      "conformal_q_cycles": 26.713064488089774,
+      "empirical_coverage": 0.9534883720930233,
+      "empirical_coverage_clipped_band": 0.9534883720930233,
+      "mean_interval_width_cycles": 49.10887019927923,
+      "mean_interval_width_clipped": 40.8729397253837,
+      "rmse": 11.767068931825866,
+      "mae": 8.13215048091356,
+      "nasa_score": 211.9644760480083,
+      "n_test_engines": 86
+    },
+    {
+      "dataset_id": "FD002",
+      "model": "Global Federated BiLSTM (FedAvg E=2)",
+      "calibration_scope": "client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle))",
+      "nominal_coverage": 0.9,
+      "conformal_q_cycles": 29.244419314994662,
+      "empirical_coverage": 0.9186046511627907,
+      "empirical_coverage_clipped_band": 0.9186046511627907,
+      "mean_interval_width_cycles": 56.541401712532654,
+      "mean_interval_width_clipped": 43.8457207512929,
+      "rmse": 14.556167836434032,
+      "mae": 9.725978895675304,
+      "nasa_score": 580.6095718481387,
+      "n_test_engines": 86
+    },
+    {
+      "dataset_id": "FD002",
+      "model": "Global Federated BiLSTM (FedAvg E=2)",
+      "calibration_scope": "client_c_mixed (Client C (Mixed Regime))",
+      "nominal_coverage": 0.9,
+      "conformal_q_cycles": 16.494010228195975,
+      "empirical_coverage": 0.7931034482758621,
+      "empirical_coverage_clipped_band": 0.7931034482758621,
+      "mean_interval_width_cycles": 31.433808120236954,
+      "mean_interval_width_clipped": 28.08229984017324,
+      "rmse": 14.611074354009732,
+      "mae": 9.61523779507341,
+      "nasa_score": 391.2510658009753,
+      "n_test_engines": 87
+    },
+    {
+      "dataset_id": "FD004",
+      "model": "Global Federated BiLSTM (FedAvg E=2)",
+      "calibration_scope": "All Test Engines (Pooled Fleet)",
+      "nominal_coverage": 0.9,
+      "conformal_q_cycles": 22.667351465062186,
+      "empirical_coverage": 0.8790322580645161,
+      "empirical_coverage_clipped_band": 0.8790322580645161,
+      "mean_interval_width_cycles": 43.58679431968246,
+      "mean_interval_width_clipped": 35.70133459486133,
+      "rmse": 14.235299061533011,
+      "mae": 9.390818767489925,
+      "nasa_score": 1246.496496527958,
+      "n_test_engines": 248
+    },
+    {
+      "dataset_id": "FD004",
+      "model": "Global Federated BiLSTM (FedAvg E=2)",
+      "calibration_scope": "client_a_high_alt_mach (Client A (High-Alt / High-Mach))",
+      "nominal_coverage": 0.9,
+      "conformal_q_cycles": 19.35932007453702,
+      "empirical_coverage": 0.8292682926829268,
+      "empirical_coverage_clipped_band": 0.8292682926829268,
+      "mean_interval_width_cycles": 37.162398920218585,
+      "mean_interval_width_clipped": 29.613488283019162,
+      "rmse": 13.962382167428043,
+      "mae": 8.928509120534105,
+      "nasa_score": 359.27349685929175,
+      "n_test_engines": 82
+    },
+    {
+      "dataset_id": "FD004",
+      "model": "Global Federated BiLSTM (FedAvg E=2)",
+      "calibration_scope": "client_b_low_alt_throttle (Client B (Low-Alt / Low-Throttle))",
+      "nominal_coverage": 0.9,
+      "conformal_q_cycles": 33.802775527149684,
+      "empirical_coverage": 0.975609756097561,
+      "empirical_coverage_clipped_band": 0.975609756097561,
+      "mean_interval_width_cycles": 64.14793105321803,
+      "mean_interval_width_clipped": 50.12617256717743,
+      "rmse": 13.59160712022312,
+      "mae": 9.221843986976438,
+      "nasa_score": 340.5080361507252,
+      "n_test_engines": 82
+    },
+    {
+      "dataset_id": "FD004",
+      "model": "Global Federated BiLSTM (FedAvg E=2)",
+      "calibration_scope": "client_c_mixed (Client C (Mixed Regime))",
+      "nominal_coverage": 0.9,
+      "conformal_q_cycles": 16.87783968572645,
+      "empirical_coverage": 0.8214285714285714,
+      "empirical_coverage_clipped_band": 0.8214285714285714,
+      "mean_interval_width_cycles": 33.10936699400797,
+      "mean_interval_width_clipped": 28.97941578047773,
+      "rmse": 15.087796855600711,
+      "mae": 10.007072613352822,
+      "nasa_score": 546.7149635179411,
+      "n_test_engines": 84
+    }
+  ]
+}
