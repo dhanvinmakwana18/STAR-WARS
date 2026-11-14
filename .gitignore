@@ -1,0 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Caches & test artifacts
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter & OS artifacts
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# Streamlit local secrets
+.streamlit/secrets.toml
+
+# Note: reports/, models/, data/raw/, and README.md are intentionally tracked.

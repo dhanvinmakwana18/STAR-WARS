@@ -1,0 +1,988 @@
+{
+  "datasets": {
+    "FD001": {
+      "op_conditions": 1,
+      "fault_modes": 1,
+      "description": "Single operating condition (sea level), single fault mode (HPC degradation)",
+      "n_train_units": 100,
+      "n_test_units": 100,
+      "n_train_rows": 20631,
+      "n_test_rows": 13096,
+      "train_cycle_min": 128,
+      "train_cycle_max": 362,
+      "train_cycle_mean": 206.31,
+      "train_cycle_median": 199.0,
+      "test_cycle_min": 31,
+      "test_cycle_max": 303,
+      "test_cycle_mean": 130.96,
+      "test_rul_min": 7,
+      "test_rul_max": 145,
+      "test_rul_mean": 75.52,
+      "constant_sensors_empirical": [
+        "sensor_1",
+        "sensor_10",
+        "sensor_16",
+        "sensor_18",
+        "sensor_19",
+        "sensor_5",
+        "sensor_6"
+      ],
+      "informative_sensors_empirical": [
+        "sensor_2",
+        "sensor_3",
+        "sensor_4",
+        "sensor_7",
+        "sensor_8",
+        "sensor_9",
+        "sensor_11",
+        "sensor_12",
+        "sensor_13",
+        "sensor_14",
+        "sensor_15",
+        "sensor_17",
+        "sensor_20",
+        "sensor_21"
+      ],
+      "matches_canonical_drop": true,
+      "sensor_stats": {
+        "sensor_1": {
+          "global_mean": 518.67,
+          "global_std": 0.0,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_2": {
+          "global_mean": 642.680934,
+          "global_std": 0.500041,
+          "within_regime_std": 0.500041,
+          "within_regime_iqr": 0.675,
+          "corr_with_rul": -0.6785,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_3": {
+          "global_mean": 1590.523119,
+          "global_std": 6.131001,
+          "within_regime_std": 6.131001,
+          "within_regime_iqr": 8.12,
+          "corr_with_rul": -0.655,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_4": {
+          "global_mean": 1408.933782,
+          "global_std": 9.000387,
+          "within_regime_std": 9.000387,
+          "within_regime_iqr": 12.195,
+          "corr_with_rul": -0.7572,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_5": {
+          "global_mean": 14.62,
+          "global_std": 0.0,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_6": {
+          "global_mean": 21.609803,
+          "global_std": 0.001389,
+          "within_regime_std": 0.001389,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": -0.1083,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_7": {
+          "global_mean": 553.367711,
+          "global_std": 0.885071,
+          "within_regime_std": 0.885071,
+          "within_regime_iqr": 1.2,
+          "corr_with_rul": 0.733,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_8": {
+          "global_mean": 2388.096652,
+          "global_std": 0.070984,
+          "within_regime_std": 0.070984,
+          "within_regime_iqr": 0.09,
+          "corr_with_rul": -0.6246,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_9": {
+          "global_mean": 9065.242941,
+          "global_std": 22.082344,
+          "within_regime_std": 22.082344,
+          "within_regime_iqr": 16.32,
+          "corr_with_rul": -0.4622,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_10": {
+          "global_mean": 1.3,
+          "global_std": 0.0,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_11": {
+          "global_mean": 47.541168,
+          "global_std": 0.267081,
+          "within_regime_std": 0.267081,
+          "within_regime_iqr": 0.35,
+          "corr_with_rul": -0.7752,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_12": {
+          "global_mean": 521.41347,
+          "global_std": 0.737536,
+          "within_regime_std": 0.737536,
+          "within_regime_iqr": 0.99,
+          "corr_with_rul": 0.7489,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_13": {
+          "global_mean": 2388.096152,
+          "global_std": 0.071917,
+          "within_regime_std": 0.071917,
+          "within_regime_iqr": 0.1,
+          "corr_with_rul": -0.624,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_14": {
+          "global_mean": 8143.752722,
+          "global_std": 19.075714,
+          "within_regime_std": 19.075714,
+          "within_regime_iqr": 15.065,
+          "corr_with_rul": -0.3698,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_15": {
+          "global_mean": 8.442146,
+          "global_std": 0.037504,
+          "within_regime_std": 0.037504,
+          "within_regime_iqr": 0.0507,
+          "corr_with_rul": -0.7209,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_16": {
+          "global_mean": 0.03,
+          "global_std": 0.0,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_17": {
+          "global_mean": 393.210654,
+          "global_std": 1.548725,
+          "within_regime_std": 1.548725,
+          "within_regime_iqr": 2.0,
+          "corr_with_rul": -0.6808,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_18": {
+          "global_mean": 2388.0,
+          "global_std": 0.0,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_19": {
+          "global_mean": 100.0,
+          "global_std": 0.0,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_20": {
+          "global_mean": 38.816271,
+          "global_std": 0.180742,
+          "within_regime_std": 0.180742,
+          "within_regime_iqr": 0.25,
+          "corr_with_rul": 0.7046,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_21": {
+          "global_mean": 23.289705,
+          "global_std": 0.108248,
+          "within_regime_std": 0.108248,
+          "within_regime_iqr": 0.145,
+          "corr_with_rul": 0.7073,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        }
+      }
+    },
+    "FD002": {
+      "op_conditions": 6,
+      "fault_modes": 1,
+      "description": "Six operating conditions, single fault mode (HPC degradation)",
+      "n_train_units": 260,
+      "n_test_units": 259,
+      "n_train_rows": 53759,
+      "n_test_rows": 33991,
+      "train_cycle_min": 128,
+      "train_cycle_max": 378,
+      "train_cycle_mean": 206.77,
+      "train_cycle_median": 199.0,
+      "test_cycle_min": 21,
+      "test_cycle_max": 367,
+      "test_cycle_mean": 131.24,
+      "test_rul_min": 6,
+      "test_rul_max": 194,
+      "test_rul_mean": 81.19,
+      "constant_sensors_empirical": [
+        "sensor_1",
+        "sensor_10",
+        "sensor_16",
+        "sensor_18",
+        "sensor_19",
+        "sensor_5",
+        "sensor_6"
+      ],
+      "informative_sensors_empirical": [
+        "sensor_2",
+        "sensor_3",
+        "sensor_4",
+        "sensor_7",
+        "sensor_8",
+        "sensor_9",
+        "sensor_11",
+        "sensor_12",
+        "sensor_13",
+        "sensor_14",
+        "sensor_15",
+        "sensor_17",
+        "sensor_20",
+        "sensor_21"
+      ],
+      "matches_canonical_drop": true,
+      "sensor_stats": {
+        "sensor_1": {
+          "global_mean": 472.910207,
+          "global_std": 26.389462,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_2": {
+          "global_mean": 579.672399,
+          "global_std": 37.289052,
+          "within_regime_std": 0.443971,
+          "within_regime_iqr": 0.603333,
+          "corr_with_rul": -0.6338,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_3": {
+          "global_mean": 1419.971013,
+          "global_std": 105.945355,
+          "within_regime_std": 5.687245,
+          "within_regime_iqr": 7.6625,
+          "corr_with_rul": -0.6186,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_4": {
+          "global_mean": 1205.442024,
+          "global_std": 119.12232,
+          "within_regime_std": 7.838829,
+          "within_regime_iqr": 10.51375,
+          "corr_with_rul": -0.7371,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_5": {
+          "global_mean": 8.031986,
+          "global_std": 3.613805,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_6": {
+          "global_mean": 11.600746,
+          "global_std": 5.431751,
+          "within_regime_std": 0.003588,
+          "within_regime_iqr": 0.005,
+          "corr_with_rul": -0.3762,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_7": {
+          "global_mean": 282.606787,
+          "global_std": 146.003948,
+          "within_regime_std": 0.584755,
+          "within_regime_iqr": 0.793333,
+          "corr_with_rul": 0.5329,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_8": {
+          "global_mean": 2228.879188,
+          "global_std": 145.208465,
+          "within_regime_std": 0.188766,
+          "within_regime_iqr": 0.18,
+          "corr_with_rul": -0.3381,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_9": {
+          "global_mean": 8525.200837,
+          "global_std": 335.808889,
+          "within_regime_std": 17.295191,
+          "within_regime_iqr": 14.495833,
+          "corr_with_rul": -0.4204,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_10": {
+          "global_mean": 1.094962,
+          "global_std": 0.127468,
+          "within_regime_std": 0.001458,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.1106,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_11": {
+          "global_mean": 42.985172,
+          "global_std": 3.232342,
+          "within_regime_std": 0.238583,
+          "within_regime_iqr": 0.323333,
+          "corr_with_rul": -0.7699,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_12": {
+          "global_mean": 266.069034,
+          "global_std": 137.658227,
+          "within_regime_std": 0.471165,
+          "within_regime_iqr": 0.631667,
+          "corr_with_rul": 0.557,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_13": {
+          "global_mean": 2334.557253,
+          "global_std": 128.06708,
+          "within_regime_std": 0.199698,
+          "within_regime_iqr": 0.188333,
+          "corr_with_rul": -0.3325,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_14": {
+          "global_mean": 8066.597682,
+          "global_std": 84.837161,
+          "within_regime_std": 15.439403,
+          "within_regime_iqr": 13.706667,
+          "corr_with_rul": -0.3195,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_15": {
+          "global_mean": 9.329654,
+          "global_std": 0.749329,
+          "within_regime_std": 0.038826,
+          "within_regime_iqr": 0.052058,
+          "corr_with_rul": -0.7243,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_16": {
+          "global_mean": 0.023326,
+          "global_std": 0.004711,
+          "within_regime_std": 0.000684,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": -0.2628,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_17": {
+          "global_mean": 348.309511,
+          "global_std": 27.754257,
+          "within_regime_std": 1.430332,
+          "within_regime_iqr": 2.0,
+          "corr_with_rul": -0.6494,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_18": {
+          "global_mean": 2228.806358,
+          "global_std": 145.326628,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_19": {
+          "global_mean": 97.756838,
+          "global_std": 5.364017,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_20": {
+          "global_mean": 20.789296,
+          "global_std": 9.869239,
+          "within_regime_std": 0.131624,
+          "within_regime_iqr": 0.18,
+          "corr_with_rul": 0.5016,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_21": {
+          "global_mean": 12.473423,
+          "global_std": 5.92156,
+          "within_regime_std": 0.078135,
+          "within_regime_iqr": 0.105704,
+          "corr_with_rul": 0.4975,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        }
+      }
+    },
+    "FD003": {
+      "op_conditions": 1,
+      "fault_modes": 2,
+      "description": "Single operating condition (sea level), two fault modes (HPC + Fan degradation)",
+      "n_train_units": 100,
+      "n_test_units": 100,
+      "n_train_rows": 24720,
+      "n_test_rows": 16596,
+      "train_cycle_min": 145,
+      "train_cycle_max": 525,
+      "train_cycle_mean": 247.2,
+      "train_cycle_median": 220.5,
+      "test_cycle_min": 38,
+      "test_cycle_max": 475,
+      "test_cycle_mean": 165.96,
+      "test_rul_min": 6,
+      "test_rul_max": 145,
+      "test_rul_mean": 75.32,
+      "constant_sensors_empirical": [
+        "sensor_1",
+        "sensor_10",
+        "sensor_16",
+        "sensor_18",
+        "sensor_19",
+        "sensor_5",
+        "sensor_6"
+      ],
+      "informative_sensors_empirical": [
+        "sensor_2",
+        "sensor_3",
+        "sensor_4",
+        "sensor_7",
+        "sensor_8",
+        "sensor_9",
+        "sensor_11",
+        "sensor_12",
+        "sensor_13",
+        "sensor_14",
+        "sensor_15",
+        "sensor_17",
+        "sensor_20",
+        "sensor_21"
+      ],
+      "matches_canonical_drop": true,
+      "sensor_stats": {
+        "sensor_1": {
+          "global_mean": 518.67,
+          "global_std": 0.0,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_2": {
+          "global_mean": 642.457858,
+          "global_std": 0.523021,
+          "within_regime_std": 0.523021,
+          "within_regime_iqr": 0.71,
+          "corr_with_rul": -0.6817,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_3": {
+          "global_mean": 1588.079175,
+          "global_std": 6.81028,
+          "within_regime_std": 6.81028,
+          "within_regime_iqr": 9.1325,
+          "corr_with_rul": -0.6964,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_4": {
+          "global_mean": 1404.471212,
+          "global_std": 9.772981,
+          "within_regime_std": 9.772981,
+          "within_regime_iqr": 13.4125,
+          "corr_with_rul": -0.7701,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_5": {
+          "global_mean": 14.62,
+          "global_std": 0.0,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_6": {
+          "global_mean": 21.595841,
+          "global_std": 0.018116,
+          "within_regime_std": 0.018116,
+          "within_regime_iqr": 0.03,
+          "corr_with_rul": -0.0964,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_7": {
+          "global_mean": 555.143808,
+          "global_std": 3.437273,
+          "within_regime_std": 3.437273,
+          "within_regime_iqr": 2.93,
+          "corr_with_rul": -0.3567,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_8": {
+          "global_mean": 2388.071555,
+          "global_std": 0.158282,
+          "within_regime_std": 0.158282,
+          "within_regime_iqr": 0.14,
+          "corr_with_rul": -0.6341,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_9": {
+          "global_mean": 9064.110809,
+          "global_std": 19.97989,
+          "within_regime_std": 19.97989,
+          "within_regime_iqr": 18.1725,
+          "corr_with_rul": -0.6438,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_10": {
+          "global_mean": 1.301232,
+          "global_std": 0.003485,
+          "within_regime_std": 0.003485,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": -0.4948,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_11": {
+          "global_mean": 47.415707,
+          "global_std": 0.300068,
+          "within_regime_std": 0.300068,
+          "within_regime_iqr": 0.41,
+          "corr_with_rul": -0.8045,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_12": {
+          "global_mean": 523.050873,
+          "global_std": 3.255248,
+          "within_regime_std": 3.255248,
+          "within_regime_iqr": 2.69,
+          "corr_with_rul": -0.375,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_13": {
+          "global_mean": 2388.071643,
+          "global_std": 0.158117,
+          "within_regime_std": 0.158117,
+          "within_regime_iqr": 0.13,
+          "corr_with_rul": -0.6346,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_14": {
+          "global_mean": 8144.202916,
+          "global_std": 16.503784,
+          "within_regime_std": 16.503784,
+          "within_regime_iqr": 14.72,
+          "corr_with_rul": -0.5636,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_15": {
+          "global_mean": 8.396176,
+          "global_std": 0.06051,
+          "within_regime_std": 0.06051,
+          "within_regime_iqr": 0.0764,
+          "corr_with_rul": -0.0021,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_16": {
+          "global_mean": 0.03,
+          "global_std": 0.0,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_17": {
+          "global_mean": 392.566545,
+          "global_std": 1.761423,
+          "within_regime_std": 1.761423,
+          "within_regime_iqr": 3.0,
+          "corr_with_rul": -0.7258,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_18": {
+          "global_mean": 2388.0,
+          "global_std": 0.0,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_19": {
+          "global_mean": 100.0,
+          "global_std": 0.0,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_20": {
+          "global_mean": 38.988552,
+          "global_std": 0.24886,
+          "within_regime_std": 0.24886,
+          "within_regime_iqr": 0.31,
+          "corr_with_rul": 0.0503,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_21": {
+          "global_mean": 23.393024,
+          "global_std": 0.149231,
+          "within_regime_std": 0.149231,
+          "within_regime_iqr": 0.1871,
+          "corr_with_rul": 0.0416,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        }
+      }
+    },
+    "FD004": {
+      "op_conditions": 6,
+      "fault_modes": 2,
+      "description": "Six operating conditions, two fault modes (HPC + Fan degradation)",
+      "n_train_units": 249,
+      "n_test_units": 248,
+      "n_train_rows": 61249,
+      "n_test_rows": 41214,
+      "train_cycle_min": 128,
+      "train_cycle_max": 543,
+      "train_cycle_mean": 245.98,
+      "train_cycle_median": 234.0,
+      "test_cycle_min": 19,
+      "test_cycle_max": 486,
+      "test_cycle_mean": 166.19,
+      "test_rul_min": 6,
+      "test_rul_max": 195,
+      "test_rul_mean": 86.55,
+      "constant_sensors_empirical": [
+        "sensor_1",
+        "sensor_10",
+        "sensor_16",
+        "sensor_18",
+        "sensor_19",
+        "sensor_5",
+        "sensor_6"
+      ],
+      "informative_sensors_empirical": [
+        "sensor_2",
+        "sensor_3",
+        "sensor_4",
+        "sensor_7",
+        "sensor_8",
+        "sensor_9",
+        "sensor_11",
+        "sensor_12",
+        "sensor_13",
+        "sensor_14",
+        "sensor_15",
+        "sensor_17",
+        "sensor_20",
+        "sensor_21"
+      ],
+      "matches_canonical_drop": true,
+      "sensor_stats": {
+        "sensor_1": {
+          "global_mean": 472.882435,
+          "global_std": 26.436616,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_2": {
+          "global_mean": 579.420056,
+          "global_std": 37.342342,
+          "within_regime_std": 0.479228,
+          "within_regime_iqr": 0.65,
+          "corr_with_rul": -0.5824,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_3": {
+          "global_mean": 1417.8966,
+          "global_std": 106.166731,
+          "within_regime_std": 6.456552,
+          "within_regime_iqr": 8.759583,
+          "corr_with_rul": -0.6486,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_4": {
+          "global_mean": 1201.915359,
+          "global_std": 119.326617,
+          "within_regime_std": 8.86035,
+          "within_regime_iqr": 12.057083,
+          "corr_with_rul": -0.721,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_5": {
+          "global_mean": 8.031626,
+          "global_std": 3.622843,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_6": {
+          "global_mean": 11.589457,
+          "global_std": 5.443972,
+          "within_regime_std": 0.014807,
+          "within_regime_iqr": 0.023333,
+          "corr_with_rul": -0.1203,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_7": {
+          "global_mean": 283.328633,
+          "global_std": 146.87901,
+          "within_regime_std": 1.902419,
+          "within_regime_iqr": 1.551667,
+          "corr_with_rul": -0.3009,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_8": {
+          "global_mean": 2228.686034,
+          "global_std": 145.347056,
+          "within_regime_std": 0.206717,
+          "within_regime_iqr": 0.19,
+          "corr_with_rul": -0.5441,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_9": {
+          "global_mean": 8524.673301,
+          "global_std": 336.924796,
+          "within_regime_std": 17.599788,
+          "within_regime_iqr": 17.157083,
+          "corr_with_rul": -0.6187,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_10": {
+          "global_mean": 1.096445,
+          "global_std": 0.127679,
+          "within_regime_std": 0.004654,
+          "within_regime_iqr": 0.003333,
+          "corr_with_rul": -0.355,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_11": {
+          "global_mean": 42.874529,
+          "global_std": 3.243465,
+          "within_regime_std": 0.27941,
+          "within_regime_iqr": 0.385,
+          "corr_with_rul": -0.7606,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_12": {
+          "global_mean": 266.735665,
+          "global_std": 138.477979,
+          "within_regime_std": 1.783924,
+          "within_regime_iqr": 1.341667,
+          "corr_with_rul": -0.3178,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_13": {
+          "global_mean": 2334.42759,
+          "global_std": 128.196813,
+          "within_regime_std": 0.216952,
+          "within_regime_iqr": 0.198333,
+          "corr_with_rul": -0.5397,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_14": {
+          "global_mean": 8067.811812,
+          "global_std": 85.669844,
+          "within_regime_std": 15.284766,
+          "within_regime_iqr": 15.004583,
+          "corr_with_rul": -0.544,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_15": {
+          "global_mean": 9.285604,
+          "global_std": 0.750368,
+          "within_regime_std": 0.067073,
+          "within_regime_iqr": 0.079621,
+          "corr_with_rul": 0.0233,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_16": {
+          "global_mean": 0.023252,
+          "global_std": 0.004685,
+          "within_regime_std": 0.000647,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": -0.2601,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_17": {
+          "global_mean": 347.760029,
+          "global_std": 27.808056,
+          "within_regime_std": 1.629207,
+          "within_regime_iqr": 2.333333,
+          "corr_with_rul": -0.6711,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_18": {
+          "global_mean": 2228.613283,
+          "global_std": 145.471304,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_19": {
+          "global_mean": 97.751396,
+          "global_std": 5.36938,
+          "within_regime_std": 0.0,
+          "within_regime_iqr": 0.0,
+          "corr_with_rul": 0.0,
+          "is_canonical_drop": true,
+          "is_near_constant": true
+        },
+        "sensor_20": {
+          "global_mean": 20.864333,
+          "global_std": 9.936315,
+          "within_regime_std": 0.166916,
+          "within_regime_iqr": 0.216667,
+          "corr_with_rul": 0.0306,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        },
+        "sensor_21": {
+          "global_mean": 12.518995,
+          "global_std": 5.962649,
+          "within_regime_std": 0.099976,
+          "within_regime_iqr": 0.129038,
+          "corr_with_rul": 0.0305,
+          "is_canonical_drop": false,
+          "is_near_constant": false
+        }
+      }
+    }
+  },
+  "drop_sensors_canonical": [
+    "sensor_1",
+    "sensor_5",
+    "sensor_6",
+    "sensor_10",
+    "sensor_16",
+    "sensor_18",
+    "sensor_19"
+  ],
+  "informative_sensors": [
+    "sensor_2",
+    "sensor_3",
+    "sensor_4",
+    "sensor_7",
+    "sensor_8",
+    "sensor_9",
+    "sensor_11",
+    "sensor_12",
+    "sensor_13",
+    "sensor_14",
+    "sensor_15",
+    "sensor_17",
+    "sensor_20",
+    "sensor_21"
+  ],
+  "rul_clip": 125,
+  "window_size": 30,
+  "rolling_windows": [
+    5,
+    10,
+    20
+  ],
+  "figures_generated": [
+    "reports/figures/eda_sensors_FD001.png",
+    "reports/figures/eda_sensors_FD002.png",
+    "reports/figures/eda_sensors_FD003.png",
+    "reports/figures/eda_sensors_FD004.png",
+    "reports/figures/eda_sensor_variance.png",
+    "reports/figures/eda_regimes_FD002_FD004.png"
+  ]
+}

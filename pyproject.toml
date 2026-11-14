@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cmapss-rul-maintenance"
+version = "0.1.0"
+description = "Predictive Maintenance & Remaining Useful Life (RUL) Estimation on NASA C-MAPSS FD001-FD004"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=2.0.0",
+    "pandas>=2.2.0",
+    "scipy>=1.13.0",
+    "scikit-learn>=1.5.0",
+    "xgboost>=2.1.0",
+    "torch>=2.3.0",
+    "joblib>=1.4.0",
+    "matplotlib>=3.9.0",
+    "seaborn>=0.13.0",
+    "streamlit>=1.40.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-ra"
